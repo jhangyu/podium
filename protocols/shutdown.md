@@ -84,7 +84,9 @@ An `approve: true` response means the request was accepted — it is NOT evidenc
 python3 ${CLAUDE_PLUGIN_ROOT}/scripts/team_shutdown.py drain <team-name> --timeout 15
 ```
 
-Requires a successful snapshot. Behavior:
+Requires a successful snapshot. `--timeout` is capped at 25 seconds (the script clamps anything higher and says so, keeping a single invocation under the 30s command timeout). Draining is not a one-shot: if panes are still alive and you simply need to keep waiting, **re-run the same drain command** rather than raising the timeout or sleeping.
+
+Behavior:
 
 1. Wait for the target panes recorded in the snapshot to exit on their own.
 2. If target panes are still alive after the timeout, terminate according to `cleanup_mode`:
@@ -120,7 +122,7 @@ Never delete team/task directories by hand — normal metadata cleanup is `TeamD
 python3 ${CLAUDE_PLUGIN_ROOT}/scripts/team_shutdown.py verify <team-name>
 ```
 
-Completion criterion:
+Completion criterion — both must hold: no live panes remain AND the team metadata is gone.
 
 ```json
 {"phase": "verify", "ok": true, "live_panes": []}
@@ -144,7 +146,7 @@ Docs updated: {list from doc-updater flush}
 ```bash
 python3 ${CLAUDE_PLUGIN_ROOT}/scripts/team_shutdown.py snapshot <team-name>
 # SendMessage: shutdown_request to each member, in order
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/team_shutdown.py drain <team-name> --timeout 15
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/team_shutdown.py drain <team-name> --timeout 15   # re-run to keep waiting; max 25
 # TeamDelete (only after snapshot AND drain both succeeded)
 python3 ${CLAUDE_PLUGIN_ROOT}/scripts/team_shutdown.py verify <team-name>
 ```
