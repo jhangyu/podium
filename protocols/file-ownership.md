@@ -1,6 +1,6 @@
 Exclusive file ownership between members and the git red lines that keep a shared working tree safe.
 
-Referenced by: `podium:team-spawn`, `podium:team-fable`, `podium:team-delegate`.
+Referenced by: `podium:team-spawn`, `podium:team-fable`.
 
 ## File Ownership Rules (lead)
 

@@ -1,6 +1,6 @@
 The authoritative team shutdown sequence — pane snapshot, doc flush, ordered shutdown requests, drain, gated TeamDelete, and final verification.
 
-Referenced by: `podium:team-shutdown`, `podium:team-fable`, `podium:team-spawn`.
+Referenced by: `podium:team-shutdown`, `podium:team-fable`, `podium:team-spawn`, `podium:team-review`, `podium:team-debug`, `podium:team-feature`, `podium:team-performance`, `podium:team-refactor`, `podium:team-techdebt`.
 
 Shutting a team down is not just "send shutdown_request and call TeamDelete". A member accepting a shutdown request does not mean its process exited, and once the team config is deleted the pane-to-team mapping is gone — leaving orphan tmux panes that cannot be safely identified afterwards. The helper script `${CLAUDE_PLUGIN_ROOT}/scripts/team_shutdown.py` provides the mechanical steps; every phase below is mandatory and ordered.
 

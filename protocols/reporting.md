@@ -1,6 +1,6 @@
 How results actually reach their destination: end-of-turn delivery, artifact-first evidence, chain of command, naming, signoff, and baton rotation.
 
-Referenced by: `podium:team-spawn`, `podium:team-fable`, `podium:team-delegate`, `podium:team-status`.
+Referenced by: `podium:team-spawn`, `podium:team-fable`, `podium:team-delegate`, `podium:team-status`, `podium:team-shutdown`, `podium:team-review`, `podium:team-debug`, `podium:team-feature`, `podium:team-performance`, `podium:team-refactor`, `podium:team-techdebt`.
 
 ## Reporting Discipline (embed in every member task prompt)
 
