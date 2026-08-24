@@ -2,3 +2,4 @@ docs/logs/
 scripts/tmp/
 .DS_Store
 __pycache__/
+dist/
