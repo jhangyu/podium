@@ -50,3 +50,11 @@ Vehicle: the real 9-member build team `podium-build` (6 implementers + 2 reviewe
 - Round 2 (skills+protocols+copy): adversarial review CONFIRMED after 1 fix cycle (6 findings resolved, commit 7e9c21b).
 - Round 3 (commands+routers, then Task 9): CONFIRMED after 1 fix cycle (single-copy redesign 99cf3aa; Referenced-by reconciliation 7fa82cd); cycle-2 re-verification CONFIRMED, all invariants independently reproduced by the reviewer.
 - Outstanding parking-lot items are tracked in the closure report to the user, not here.
+
+## Task 8 Cutover (executed after this log's first commit)
+
+- Backups: 7 touched files copied to `~/.claude/backups/*.bak-20260824` before any edit.
+- Living-rule rewrites: `~/.claude/CLAUDE.md` 任務編排 line → `podium:team-spawn`; `hooks/global-agent-gate` deny-message → `podium:team-spawn`; `reference/team-shutdown-protocol.md` → two-line stub pointing at installed podium `protocols/shutdown.md` + `scripts/team_shutdown.py`; `reference/team_shutdown.py` and `scripts/register_extended_agent_teams.py` removed (backed up). Dated addendums appended to `harness-diagnosis.md` / `hooks-architecture.md`; historical ledgers (change-log, archive/, lessons-learned) intentionally left as history.
+- Uninstalls: `superpowers@jhangyu` was already auto-removed with the earlier `jhangyu` marketplace re-registration; `extended-agent-teams@claude-code-workflows` uninstalled RC=0; `claude-code-workflows` marketplace removed RC=0.
+- Verification: `installed_plugins.json` old-plugin hits = 0, `podium@jhangyu` present; `known_marketplaces.json` claude-code-workflows = 0, `jhangyu` → directory `/Users/jhangyu/project/podium`; living-rule colon-prefix grep over CLAUDE.md/rules/reference (backups+archive excluded) = 0.
+- Post-cutover fresh session (decisive, shadowing gone): `podium:brainstorming` yes / `superpowers:brainstorming` no / `extended-agent-teams:team-spawn` no / agent types `podium:architect-reviewer, podium:c-pro, podium:code-reviewer, podium:cpp-pro, podium:golang-pro…` listed. The Task 7 deferred agent check now PASSES.
