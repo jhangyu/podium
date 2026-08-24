@@ -13,7 +13,7 @@ The test-runner is reactive and mechanical: it runs the exact commands it is giv
 
 Test-runner hard rules: never modify source code; never infer commands; never rerun failing tests with different flags unless the requester explicitly asks; always report exit codes even for commands that appear to pass; one report per request — no partial updates.
 
-**Implementers wait for the gate**: when implementation is complete, message `team-test-runner` with the exact test commands and build commands to verify, and wait for test-runner confirmation before treating the task as done. A squad lead's report without its test-runner's PASS/FAIL result is invalid.
+**Implementers wait for the gate**: when implementation is complete, message `team-test-runner` with the exact test commands and build commands to verify, and wait for test-runner confirmation before treating the task as done. This direct implementer→test-runner message is the standing exception to the chain-of-command routing in `${CLAUDE_PLUGIN_ROOT}/protocols/reporting.md`, which also governs how a lead's report must carry its test-runner's verdict.
 
 Where no runnable test command exists, the lead verifies by executing the changed path directly at least once.
 
@@ -29,24 +29,7 @@ When dispatched to verify work another agent has already reported as complete, t
 
 ## Findings Format
 
-For each finding:
-
-```
-### [SEVERITY] Finding Title
-
-**Location**: `path/to/file.ts:42`
-**Dimension**: Security | Performance | Architecture | Testing | Accessibility
-**Severity**: Critical | High | Medium | Low
-
-**Evidence**:
-Description of what was found, with code snippet if relevant.
-
-**Impact**:
-What could go wrong if this is not addressed.
-
-**Recommended Fix**:
-Specific, actionable remediation with code example if applicable.
-```
+Reviewers emit findings in the structured template owned by the reviewer agent definition: see `${CLAUDE_PLUGIN_ROOT}/agents/team-reviewer.md` ("Output Format"). Every finding cites a specific `file:line`, an evidence-based severity, and a concrete fix.
 
 ## Evidence Discipline
 

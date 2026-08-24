@@ -16,6 +16,7 @@ A **round** = one batch of tasks dispatched together (in squad orchestration, on
 
 Review happens once per round, not per member or per deliverable. When every task in the round is complete (with test-runner PASS evidence where a test-runner exists), spawn a single `podium:team-reviewer` named `round-{N}-reviewer-{model}` scoped to the round's combined diff — across all squad worktrees when squads are in use. Its verdict goes to the main agent (or team-lead / orchestrator) and to no one else.
 
+- In squad orchestration the round reviewer is `opus` (`round-{N}-reviewer-opus`) — the model floor is mandatory, not a default.
 - The reviewer works **read-only in the existing worktrees** — no new worktree, no file ownership list.
 - The reviewer's task prompt embeds the verification protocol and the git red lines (`${CLAUDE_PLUGIN_ROOT}/protocols/file-ownership.md`) verbatim, not the communication protocol.
 - Issues route back to the original worker (or originating squad lead) for fixes, then re-review — **maximum 2 review→fix cycles per round**. Still failing after 2 cycles → stop, report the failure trace to the user, and wait for direction.
@@ -24,7 +25,7 @@ Review happens once per round, not per member or per deliverable. When every tas
 ## Orchestrator Duties During a Round
 
 1. The orchestrator receives squad-lead summaries only; it does not micro-manage members.
-2. **Spot-check**: the orchestrator personally verifies 1–2 key claims per squad against evidence (`git show <hash> --stat`, grep for a content marker) — task status is not proof the work is in the tree.
+2. **Spot-check**: the orchestrator personally verifies 1–2 key claims per squad against evidence, per the evidence discipline in `${CLAUDE_PLUGIN_ROOT}/protocols/verification.md`.
 3. **Stall watchdog**: an idle notification carrying NO outbound `[to <member>]` summary, from a member that was just sent a command, means that member ended its turn without delivering — nudge it once immediately (idle wake-ups are messages, not polling). If the SAME member or relay hop drops its results twice, BYPASS it: the lead or main agent runs the verification commands itself (the lead is independent of the implementers, so verifier-independence holds) and the dropped hop's member is shut down or re-scoped. Bypass is bounded recovery, not the default flow.
 4. **Escalation**: if the same subtask fails twice (same root cause), STOP retrying. The squad lead escalates to the orchestrator with the full failure trace (attempts, error output, current state). The orchestrator decides: re-scope, upgrade model, or ask the user.
 

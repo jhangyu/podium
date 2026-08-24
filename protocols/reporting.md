@@ -8,15 +8,18 @@ Referenced by: `podium:team-spawn`, `podium:team-fable`, `podium:team-delegate`,
 - **Artifact-first verification**: whoever runs verification commands (test-runner or lead) writes the raw output to a file in the working tree or worktree (e.g. `tmp/verify/<timestamp>.txt`) BEFORE reporting; the report message carries the file path + a one-line summary. A dropped message then loses nothing — the lead recovers by reading the file.
 - **Long-running processes**: never babysit. Launch detached (nohup + log file), sanity-check once, then report PID + log path to your lead and yield. Repeated polling of a still-running process is the signal to stop and report instead. A detached launch is a handoff, not a completed verification.
 - A precise "blocked because X" report is a successful outcome; a guessed implementation is not.
-- Audit progress claims against actual tool output before reporting them.
+- Before reporting any progress claim, apply the evidence discipline in `${CLAUDE_PLUGIN_ROOT}/protocols/verification.md`.
 
 ## Chain of Command
 
-- **Implementers / test-runners**: report ONLY to your own squad lead (or the team-lead) via SendMessage. Never message the orchestrator, other squads, or other members directly. If your task is blocked or needs delegation, stop and report to your lead.
+- **Implementers / test-runners**: report to your own lead via SendMessage — your squad lead in squad orchestration, the team-lead otherwise. The one standing exception is the test gate: an implementer messages `team-test-runner` directly to request its test/build commands and receives its result directly (see `${CLAUDE_PLUGIN_ROOT}/protocols/verification.md`). In squad orchestration this exception is scoped to your own squad's test-runner. Otherwise never message the orchestrator, other squads, or unrelated members directly. If your task is blocked or needs delegation, stop and report to your lead.
 - **Squad leads**: you are the only member who messages the orchestrator. Before reporting your squad's conclusion, you MUST wait for your test-runner's PASS/FAIL result — a squad report without test evidence is invalid. Summarize member results; do not forward raw logs.
 - **Cross-squad dependency**: if your squad depends on another squad's output, WAIT for that squad lead's explicit SendMessage handing over the interface. Polling is forbidden — do not send repeated status queries; work on non-blocked items or go idle until the handoff arrives.
 - Squad leads and members NEVER spawn subagents, teams, or workflows. Needing delegation means: stop and report up the chain.
 - Use `message` for direct teammate communication (default); use `broadcast` only for critical team-wide announcements. Never send structured JSON status messages — use TaskUpdate instead. Refer to teammates by NAME, never by UUID.
+- Read team config from `~/.claude/teams/{team-name}/config.json` for teammate discovery.
+
+> Note: the v1.3.4 `team-fable` variant stated the member routing rule unconditionally ("never message other members directly"), which forbids the implementer→test-runner message that the `team-implementer` agent requires; the unconditional wording is discarded in favour of the test-gate exception above.
 
 ## Signoff and Task Closure
 
@@ -35,7 +38,7 @@ Rotation is mandatory: judgment degrades as a member's context grows.
 
 - **Task cap per member lifetime**: judgment-dense work (debugging, architecture, algorithms, security) = 1–2 tasks; mechanical work (batch edits, applying a known pattern, running commands) = 3–4 tasks. The cap is set by judgment density, not line count. No member carries more than 4 tasks (2 if judgment-dense) in its lifetime.
 - On reaching the cap, the member's LAST action is writing a **baton handoff doc** into the working tree (e.g. `{logs-dir}/baton-{k}.md`, or `{logs-dir}/{YYYY-MM-DD}/round-{N}-{squad}-baton-{k}.md` in squad orchestration) containing: the contract's end-state and acceptance criteria **quoted verbatim**, completed tasks + evidence (content markers / hashes / test names), in-progress state with the next concrete action, refuted hypotheses and failure traces (so the successor never retries a dead route), and the red-line list. Then it reports `READY_FOR_HANDOFF` to its lead and stops taking work.
-- The lead (or main agent) relays to the orchestrator, which spawns a **fresh** member whose prompt includes the baton doc path and the instruction: "routes listed under failure traces must not be retried."
+- A **fresh** member then replaces it, spawned with a prompt that includes the baton doc path and the instruction: "routes listed under failure traces must not be retried." Who spawns depends on the shape: in squad orchestration the squad lead relays `READY_FOR_HANDOFF` to the orchestrator, which spawns the replacement (squad leads never spawn); in flat preset teams the team-lead — or the main agent when there is no lead — spawns the replacement directly.
 - **Early-rotation signals** (rotate before the cap): the same error appears a third time, or the member itself reports context pressure. A fresh perspective is the fix — not another retry by the same member. Keeping a degraded member running to save one handoff is how a whole round goes bad.
 
 ## Language Policy
