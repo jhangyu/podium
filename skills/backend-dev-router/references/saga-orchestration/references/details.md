@@ -4,7 +4,7 @@
 
 ### Template 1: Order Fulfillment Saga (Orchestration)
 
-Concrete subclass of the base orchestrator. Defines four steps spanning inventory, payment, shipping, and notification. See `references/advanced-patterns.md` for the full abstract `SagaOrchestrator` base class.
+Concrete subclass of the base orchestrator. Defines four steps spanning inventory, payment, shipping, and notification.
 
 ```python
 from saga_orchestrator import SagaOrchestrator, SagaStep

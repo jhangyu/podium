@@ -40,4 +40,3 @@ Detailed pattern documentation lives in `references/details.md`. Read that file 
 14. **Handle errors properly**: Use try/catch with async/await
 15. **Use strict mode**: `'use strict'` for better error catching
 
-For common pitfalls (this binding, promise anti-patterns, memory leaks), see [references/advanced-patterns.md](references/advanced-patterns.md).

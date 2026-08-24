@@ -300,7 +300,6 @@ def test_exception_info():
     assert "invalid literal" in str(exc_info.value)
 ```
 
-For advanced patterns including async testing, monkeypatching, temporary files, conftest setup, property-based testing, database testing, CI/CD integration, and configuration files, see [references/advanced-patterns.md](references/advanced-patterns.md)
 
 ## Test Design Principles
 

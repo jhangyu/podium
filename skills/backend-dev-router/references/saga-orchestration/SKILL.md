@@ -94,7 +94,7 @@ In a choreography-based saga, a downstream service may miss an event if it was o
 
 ### Timeout firing before a slow-but-valid step completes
 
-A step like `create_shipment` might take up to 15 minutes during peak load but your global timeout is 5 minutes, causing spurious compensation. Make step timeouts configurable per step type — see `references/advanced-patterns.md` for the `TimeoutSagaOrchestrator` implementation and the `STEP_TIMEOUTS` dict pattern.
+A step like `create_shipment` might take up to 15 minutes during peak load but your global timeout is 5 minutes, causing spurious compensation. Make step timeouts configurable per step type.
 
 ### Compensation order not matching execution order
 
@@ -106,7 +106,6 @@ When two steps both complete before a failure is detected, compensation must run
 
 The `references/` directory contains production-grade implementations not needed for most sagas:
 
-- **`references/advanced-patterns.md`** — Full `SagaOrchestrator` abstract base class, `TimeoutSagaOrchestrator` with per-step deadlines, detailed bank transfer compensating transaction chain, Prometheus instrumentation, stuck saga PromQL alerts, and DLQ recovery worker.
 
 ---
 
