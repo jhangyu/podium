@@ -1,0 +1,21 @@
+{
+  "name": "podium",
+  "description": "Unified pipeline plugin: methodology gates (brainstorming → writing-plans → TDD/systematic-debugging → verification) fused with agent-team orchestration (spawn/fable/roster) over Claude Code native team primitives. Single-source mechanism protocols.",
+  "version": "1.0.0",
+  "author": {
+    "name": "jhangyu",
+    "email": "jhangyu@gmail.com"
+  },
+  "homepage": "https://github.com/jhangyu/podium",
+  "repository": "https://github.com/jhangyu/podium",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "tdd",
+    "debugging",
+    "brainstorming",
+    "planning",
+    "agent-teams",
+    "orchestration"
+  ]
+}
