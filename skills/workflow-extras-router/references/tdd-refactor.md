@@ -6,7 +6,7 @@ Refactor code with confidence using comprehensive test safety net:
 
 Use Task tool with subagent_type="general-purpose" to perform safe refactoring.
 
-Prompt: "Read plugins/extended-agent-teams/roster/tdd-orchestrator.md and fully adopt that role, then: Refactor this code while keeping all tests green: $ARGUMENTS. Apply TDD refactor phase:
+Prompt: "Read ${CLAUDE_PLUGIN_ROOT}/roster/tdd-orchestrator.md and fully adopt that role, then: Refactor this code while keeping all tests green: $ARGUMENTS. Apply TDD refactor phase:
 
 ## Core Process
 

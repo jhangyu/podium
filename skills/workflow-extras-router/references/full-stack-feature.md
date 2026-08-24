@@ -351,7 +351,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Create test suite for $FEATURE"
   prompt: |
-    Read plugins/extended-agent-teams/roster/test-automator.md and fully adopt that role, then: Create a comprehensive test suite for this full-stack feature.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/test-automator.md and fully adopt that role, then: Create a comprehensive test suite for this full-stack feature.
 
     ## What was implemented
     ### Database
@@ -382,7 +382,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Security review of $FEATURE"
   prompt: |
-    Read plugins/extended-agent-teams/roster/security-auditor.md and fully adopt that role, then: Perform a security review of this full-stack feature implementation.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/security-auditor.md and fully adopt that role, then: Perform a security review of this full-stack feature implementation.
 
     ## Architecture
     [Insert contents of .full-stack-feature/03-architecture.md]
@@ -410,7 +410,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Performance review of $FEATURE"
   prompt: |
-    Read plugins/extended-agent-teams/skills/workflow-extras-router/references/agent-performance-engineer.md and fully adopt that role, then: Review the performance of this full-stack feature implementation.
+    Read ${CLAUDE_PLUGIN_ROOT}/skills/workflow-extras-router/references/agent-performance-engineer.md and fully adopt that role, then: Review the performance of this full-stack feature implementation.
 
     ## Architecture
     [Insert contents of .full-stack-feature/03-architecture.md]
@@ -492,7 +492,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Create deployment config for $FEATURE"
   prompt: |
-    Read plugins/extended-agent-teams/roster/deployment-engineer.md and fully adopt that role, then: Create the deployment and infrastructure configuration for this full-stack feature.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/deployment-engineer.md and fully adopt that role, then: Create the deployment and infrastructure configuration for this full-stack feature.
 
     ## Architecture
     [Insert contents of .full-stack-feature/03-architecture.md]

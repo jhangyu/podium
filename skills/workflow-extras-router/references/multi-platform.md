@@ -75,7 +75,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Design API contract for $FEATURE"
   prompt: |
-    Read plugins/extended-agent-teams/roster/backend-architect.md and fully adopt that role, then: Design the API contract for feature: $FEATURE.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/backend-architect.md and fully adopt that role, then: Design the API contract for feature: $FEATURE.
 
     ## Target Platforms
     [List from state.json platforms]
@@ -115,7 +115,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Create cross-platform design system for $FEATURE"
   prompt: |
-    Read plugins/extended-agent-teams/roster/ui-ux-designer.md and fully adopt that role, then: Create cross-platform design system for feature: $FEATURE.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/ui-ux-designer.md and fully adopt that role, then: Create cross-platform design system for feature: $FEATURE.
 
     ## API Specification
     [Insert contents of .multi-platform/01-api-contracts.md]
@@ -226,7 +226,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Implement web version of $FEATURE"
   prompt: |
-    Read plugins/extended-agent-teams/roster/frontend-developer.md and fully adopt that role, then: Implement web version of feature: $FEATURE.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/frontend-developer.md and fully adopt that role, then: Implement web version of feature: $FEATURE.
 
     ## API Contracts
     [Insert contents of .multi-platform/01-api-contracts.md]
@@ -259,7 +259,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Implement iOS version of $FEATURE"
   prompt: |
-    Read plugins/extended-agent-teams/roster/ios-developer.md and fully adopt that role, then: Implement iOS version of feature: $FEATURE.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/ios-developer.md and fully adopt that role, then: Implement iOS version of feature: $FEATURE.
 
     ## API Contracts
     [Insert contents of .multi-platform/01-api-contracts.md]
@@ -290,7 +290,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Implement Android version of $FEATURE"
   prompt: |
-    Read plugins/extended-agent-teams/roster/mobile-developer.md and fully adopt that role, then: Implement Android version of feature: $FEATURE.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/mobile-developer.md and fully adopt that role, then: Implement Android version of feature: $FEATURE.
 
     ## API Contracts
     [Insert contents of .multi-platform/01-api-contracts.md]
@@ -325,7 +325,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Implement desktop version of $FEATURE"
   prompt: |
-    Read plugins/extended-agent-teams/roster/frontend-developer.md and fully adopt that role, then: Implement desktop version of feature: $FEATURE using Tauri 2.0 or Electron.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/frontend-developer.md and fully adopt that role, then: Implement desktop version of feature: $FEATURE using Tauri 2.0 or Electron.
 
     ## API Contracts
     [Insert contents of .multi-platform/01-api-contracts.md]

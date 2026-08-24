@@ -75,7 +75,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Analyze error context for: $ISSUE"
   prompt: |
-    Read plugins/extended-agent-teams/roster/error-detective.md and fully adopt that role, then:
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/error-detective.md and fully adopt that role, then:
     Analyze error traces, logs, and observability data for: $ISSUE
 
     Deliverables:
@@ -116,7 +116,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Identify root cause for: $ISSUE"
   prompt: |
-    Read plugins/extended-agent-teams/roster/debugger.md and fully adopt that role, then:
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/debugger.md and fully adopt that role, then:
     Perform root cause investigation using error-detective output:
 
     Context from Error-Detective:
@@ -184,7 +184,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Deep code analysis for: $ISSUE"
   prompt: |
-    Read plugins/extended-agent-teams/roster/debugger.md and fully adopt that role, then:
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/debugger.md and fully adopt that role, then:
     Perform deep code analysis and bisect investigation:
 
     Context from Phase 1:
@@ -219,7 +219,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Review code logic for: $ISSUE"
   prompt: |
-    Read plugins/extended-agent-teams/skills/workflow-extras-router/references/agent-incident-code-reviewer.md and fully adopt that role, then:
+    Read ${CLAUDE_PLUGIN_ROOT}/skills/workflow-extras-router/references/agent-incident-code-reviewer.md and fully adopt that role, then:
     Review code logic and identify design issues:
 
     Context from Deep Analysis:
@@ -332,7 +332,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Regression testing for: $ISSUE fix"
   prompt: |
-    Read plugins/extended-agent-teams/roster/test-automator.md and fully adopt that role, then:
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/test-automator.md and fully adopt that role, then:
     Run comprehensive regression testing and verify fix quality:
 
     Context:
@@ -456,7 +456,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Final review for: $ISSUE fix"
   prompt: |
-    Read plugins/extended-agent-teams/skills/workflow-extras-router/references/agent-incident-code-reviewer.md and fully adopt that role, then:
+    Read ${CLAUDE_PLUGIN_ROOT}/skills/workflow-extras-router/references/agent-incident-code-reviewer.md and fully adopt that role, then:
     Perform final code review and approve for deployment:
 
     Implementation: [Insert contents of .smart-fix/05-implementation.md]

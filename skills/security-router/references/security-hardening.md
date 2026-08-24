@@ -76,7 +76,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Comprehensive vulnerability scan of $TARGET"
   prompt: |
-    Read plugins/extended-agent-teams/roster/security-auditor.md and fully adopt that role, then: Perform a comprehensive security assessment on: $TARGET.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/security-auditor.md and fully adopt that role, then: Perform a comprehensive security assessment on: $TARGET.
 
     ## Instructions
     1. Execute SAST analysis (Semgrep/SonarQube patterns)
@@ -106,7 +106,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Threat modeling and risk analysis for $TARGET"
   prompt: |
-    Read plugins/extended-agent-teams/roster/threat-modeling-expert.md and fully adopt that role, then: Conduct threat modeling using STRIDE methodology for: $TARGET.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/threat-modeling-expert.md and fully adopt that role, then: Conduct threat modeling using STRIDE methodology for: $TARGET.
 
     ## Vulnerability Context
     [Insert full contents of .security-hardening/01-vulnerability-scan.md]
@@ -200,7 +200,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Remediate critical vulnerabilities for $TARGET"
   prompt: |
-    Read plugins/extended-agent-teams/roster/security-auditor.md and fully adopt that role, then: Coordinate immediate remediation of critical vulnerabilities (CVSS 7+) in: $TARGET.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/security-auditor.md and fully adopt that role, then: Coordinate immediate remediation of critical vulnerabilities (CVSS 7+) in: $TARGET.
 
     ## Vulnerability Scan Results
     [Insert contents of .security-hardening/01-vulnerability-scan.md]
@@ -373,7 +373,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Enhance authentication and authorization for $TARGET"
   prompt: |
-    Read plugins/extended-agent-teams/roster/security-auditor.md and fully adopt that role, then: Implement a modern authentication system for: $TARGET.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/security-auditor.md and fully adopt that role, then: Implement a modern authentication system for: $TARGET.
 
     ## Architecture Review
     [Insert contents of .security-hardening/03-architecture-review.md]
@@ -503,7 +503,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Penetration testing and validation for $TARGET"
   prompt: |
-    Read plugins/extended-agent-teams/roster/security-auditor.md and fully adopt that role, then: Execute comprehensive penetration testing for: $TARGET.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/security-auditor.md and fully adopt that role, then: Execute comprehensive penetration testing for: $TARGET.
 
     ## Critical Fixes Applied
     [Insert contents of .security-hardening/04-critical-fixes.md]
@@ -541,7 +541,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Compliance verification for $TARGET"
   prompt: |
-    Read plugins/extended-agent-teams/roster/security-auditor.md and fully adopt that role, then: Verify compliance with security frameworks for: $TARGET.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/security-auditor.md and fully adopt that role, then: Verify compliance with security frameworks for: $TARGET.
 
     ## Penetration Test Results
     [Insert contents of .security-hardening/11-pentest-results.md]

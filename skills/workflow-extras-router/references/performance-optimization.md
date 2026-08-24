@@ -75,7 +75,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Profile application performance for $TARGET"
   prompt: |
-    Read plugins/extended-agent-teams/skills/workflow-extras-router/references/agent-performance-engineer.md and fully adopt that role, then:
+    Read ${CLAUDE_PLUGIN_ROOT}/skills/workflow-extras-router/references/agent-performance-engineer.md and fully adopt that role, then:
     Profile application performance comprehensively for: $TARGET.
 
     Generate flame graphs for CPU usage, heap dumps for memory analysis, trace I/O operations,
@@ -108,7 +108,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Assess observability setup for $TARGET"
   prompt: |
-    Read plugins/extended-agent-teams/roster/observability-engineer.md and fully adopt that role, then:
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/observability-engineer.md and fully adopt that role, then:
     Assess current observability setup for: $TARGET.
 
     ## Performance Profile
@@ -143,7 +143,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Analyze user experience metrics for $TARGET"
   prompt: |
-    Read plugins/extended-agent-teams/skills/workflow-extras-router/references/agent-performance-engineer.md and fully adopt that role, then:
+    Read ${CLAUDE_PLUGIN_ROOT}/skills/workflow-extras-router/references/agent-performance-engineer.md and fully adopt that role, then:
     Analyze user experience metrics for: $TARGET.
 
     ## Performance Baselines
@@ -281,7 +281,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Optimize distributed system performance for $TARGET"
   prompt: |
-    Read plugins/extended-agent-teams/skills/workflow-extras-router/references/agent-performance-engineer.md and fully adopt that role, then:
+    Read ${CLAUDE_PLUGIN_ROOT}/skills/workflow-extras-router/references/agent-performance-engineer.md and fully adopt that role, then:
     Optimize distributed system performance for: $TARGET.
 
     ## Profiling Data
@@ -342,7 +342,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Optimize frontend performance for $TARGET"
   prompt: |
-    Read plugins/extended-agent-teams/roster/frontend-developer.md and fully adopt that role, then:
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/frontend-developer.md and fully adopt that role, then:
     Optimize frontend performance for: $TARGET targeting Core Web Vitals improvements.
 
     ## UX Analysis
@@ -477,7 +477,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Conduct comprehensive load testing for $TARGET"
   prompt: |
-    Read plugins/extended-agent-teams/skills/workflow-extras-router/references/agent-performance-engineer.md and fully adopt that role, then:
+    Read ${CLAUDE_PLUGIN_ROOT}/skills/workflow-extras-router/references/agent-performance-engineer.md and fully adopt that role, then:
     Conduct comprehensive load testing for: $TARGET using k6/Gatling/Artillery.
 
     ## Original Baselines
@@ -574,7 +574,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Implement production performance monitoring for $TARGET"
   prompt: |
-    Read plugins/extended-agent-teams/roster/observability-engineer.md and fully adopt that role, then:
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/observability-engineer.md and fully adopt that role, then:
     Implement production performance monitoring for: $TARGET.
 
     ## Observability Assessment
@@ -613,7 +613,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Establish continuous optimization process for $TARGET"
   prompt: |
-    Read plugins/extended-agent-teams/skills/workflow-extras-router/references/agent-performance-engineer.md and fully adopt that role, then:
+    Read ${CLAUDE_PLUGIN_ROOT}/skills/workflow-extras-router/references/agent-performance-engineer.md and fully adopt that role, then:
     Establish continuous optimization process for: $TARGET.
 
     ## Monitoring Setup

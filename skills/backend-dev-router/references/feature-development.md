@@ -130,7 +130,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Design architecture for $FEATURE"
   prompt: |
-    Read plugins/extended-agent-teams/roster/backend-architect.md and fully adopt that role, then: Design the technical architecture for this feature.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/backend-architect.md and fully adopt that role, then: Design the technical architecture for this feature.
 
     ## Requirements
     [Insert full contents of .feature-dev/01-requirements.md]
@@ -183,7 +183,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Implement backend for $FEATURE"
   prompt: |
-    Read plugins/extended-agent-teams/roster/backend-architect.md and fully adopt that role, then: Implement the backend for this feature based on the approved architecture.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/backend-architect.md and fully adopt that role, then: Implement the backend for this feature based on the approved architecture.
 
     ## Requirements
     [Insert contents of .feature-dev/01-requirements.md]
@@ -257,7 +257,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Create test suite for $FEATURE"
   prompt: |
-    Read plugins/extended-agent-teams/roster/test-automator.md and fully adopt that role, then: Create a comprehensive test suite for this feature.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/test-automator.md and fully adopt that role, then: Create a comprehensive test suite for this feature.
 
     ## What was implemented
     ### Backend
@@ -284,7 +284,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Security review of $FEATURE"
   prompt: |
-    Read plugins/extended-agent-teams/roster/security-auditor.md and fully adopt that role, then: Perform a security review of this feature implementation.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/security-auditor.md and fully adopt that role, then: Perform a security review of this feature implementation.
 
     ## Architecture
     [Insert contents of .feature-dev/02-architecture.md]

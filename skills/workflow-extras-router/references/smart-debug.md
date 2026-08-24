@@ -21,7 +21,7 @@ Parse for:
 
 ### 1. Initial Triage
 
-Use Task tool (subagent_type="general-purpose") for AI-powered analysis. Prompt must begin with: "Read plugins/extended-agent-teams/roster/debugger.md and fully adopt that role, then: " followed by the analysis request below:
+Use Task tool (subagent_type="general-purpose") for AI-powered analysis. Prompt must begin with: "Read ${CLAUDE_PLUGIN_ROOT}/roster/debugger.md and fully adopt that role, then: " followed by the analysis request below:
 
 - Error pattern recognition
 - Stack trace analysis with probable causes

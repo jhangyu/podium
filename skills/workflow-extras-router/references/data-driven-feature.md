@@ -190,7 +190,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Design feature architecture for $FEATURE with A/B testing capability"
   prompt: |
-    Read plugins/extended-agent-teams/roster/backend-architect.md and fully adopt that role, then: Design the feature architecture for: $FEATURE with A/B testing capability.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/backend-architect.md and fully adopt that role, then: Design the feature architecture for: $FEATURE with A/B testing capability.
 
     ## Business Hypotheses
     [Insert contents of .data-driven-feature/02-hypotheses.md]
@@ -223,7 +223,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Design analytics instrumentation for $FEATURE"
   prompt: |
-    Read plugins/extended-agent-teams/roster/data-engineer.md and fully adopt that role, then: Design comprehensive analytics instrumentation for: $FEATURE.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/data-engineer.md and fully adopt that role, then: Design comprehensive analytics instrumentation for: $FEATURE.
 
     ## Architecture
     [Insert contents of .data-driven-feature/04-architecture.md]
@@ -256,7 +256,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Design data pipelines for $FEATURE"
   prompt: |
-    Read plugins/extended-agent-teams/roster/data-engineer.md and fully adopt that role, then: Design data pipelines for feature: $FEATURE.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/data-engineer.md and fully adopt that role, then: Design data pipelines for feature: $FEATURE.
 
     ## Analytics Design
     [Insert contents of .data-driven-feature/05-analytics-design.md]
@@ -313,7 +313,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Implement backend for $FEATURE with full instrumentation"
   prompt: |
-    Read plugins/extended-agent-teams/roster/backend-architect.md and fully adopt that role, then: Implement the backend for feature: $FEATURE with full instrumentation.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/backend-architect.md and fully adopt that role, then: Implement the backend for feature: $FEATURE with full instrumentation.
 
     ## Architecture
     [Insert contents of .data-driven-feature/04-architecture.md]
@@ -444,7 +444,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Validate analytics implementation for $FEATURE"
   prompt: |
-    Read plugins/extended-agent-teams/roster/data-engineer.md and fully adopt that role, then: Validate the analytics implementation for: $FEATURE.
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/data-engineer.md and fully adopt that role, then: Validate the analytics implementation for: $FEATURE.
 
     ## Analytics Design
     [Insert contents of .data-driven-feature/05-analytics-design.md]

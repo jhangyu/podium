@@ -114,7 +114,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Code quality analysis for $ARGUMENTS"
   prompt: |
-    Read plugins/extended-agent-teams/skills/workflow-extras-router/references/agent-code-reviewer.md and fully adopt that role, then:
+    Read ${CLAUDE_PLUGIN_ROOT}/skills/workflow-extras-router/references/agent-code-reviewer.md and fully adopt that role, then:
     Perform a comprehensive code quality review.
 
     ## Review Scope
@@ -145,7 +145,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Architecture review for $ARGUMENTS"
   prompt: |
-    Read plugins/extended-agent-teams/skills/workflow-extras-router/references/agent-architect-review.md and fully adopt that role, then:
+    Read ${CLAUDE_PLUGIN_ROOT}/skills/workflow-extras-router/references/agent-architect-review.md and fully adopt that role, then:
     Review the architectural design and structural integrity of the target code.
 
     ## Review Scope
@@ -203,7 +203,7 @@ Task:
   subagent_type: "general-purpose"
   description: "Security audit for $ARGUMENTS"
   prompt: |
-    Read plugins/extended-agent-teams/roster/security-auditor.md and fully adopt that role, then:
+    Read ${CLAUDE_PLUGIN_ROOT}/roster/security-auditor.md and fully adopt that role, then:
     Execute a comprehensive security audit on the target code.
 
     ## Review Scope
