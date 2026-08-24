@@ -28,8 +28,8 @@ Ideas are shaped in `brainstorming`, turned into an executable plan in `writing-
 
 podium merges two maintained forks:
 
-- Methodology skills: jhangyu's fork of `obra/superpowers`.
-- Orchestration layer: the fork-local `extended-agent-teams` plugin, v1.3.4.
+- Methodology skills: jhangyu's fork of `obra/superpowers` (now retired; podium is its successor).
+- Orchestration layer: the fork-local extended-agent-teams plugin, v1.3.4 (now retired; podium is its successor).
 
 All mechanism text that was duplicated across the two sources has been extracted into `protocols/`; commands are now thin shells that point at the protocol they follow.
 
@@ -39,4 +39,4 @@ Do not enable podium together with `agent-teams` or `systems-programming`. This 
 
 ## Maintenance covenant
 
-Mechanism text (member selection, rounds/review cadence, file ownership, verification, worktree lifecycle, reporting, shutdown) lives only under protocols/. Commands reference protocols; they never restate them. Any mechanism revision edits exactly one file under protocols/.
+Mechanism text (member selection, rounds/review cadence, file ownership, verification, worktree lifecycle, reporting, shutdown) lives only under protocols/. Commands reference protocols; they never restate them. Any mechanism revision edits exactly one file under protocols/. One sanctioned exception: the reviewer findings-template's canonical home is `agents/team-reviewer.md` (protocols/verification.md points at it laterally).

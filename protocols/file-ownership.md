@@ -23,6 +23,7 @@ Where squads are used, work is split into squad-scoped work packages with **excl
 
 - NEVER run `git stash`, `git reset`, `git checkout --`, or `git clean` — teammates' uncommitted work being present in the tree is normal.
 - Commit ONLY with explicit `git add <your-own-files>`. Never `git add -A` / `git add .`.
+- Commit with a pathspec: `git commit -- <your-own-files>`, never a bare `git commit` — the shared index may hold teammates' staged changes, and a bare commit sweeps the whole index into your commit. Staged-but-uncommitted teammate work is in-flight state under the same protection as uncommitted files.
 - Never touch files outside your ownership list. Never force-push.
 
 ## Conflict Resolution

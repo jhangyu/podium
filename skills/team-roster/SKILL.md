@@ -5,7 +5,7 @@ description: Expert agent roster for composing teams or delegating specialist wo
 
 # Team Roster
 
-Roster files live at `${CLAUDE_PLUGIN_ROOT}/roster/`. To use a role: Read the roster file, then spawn a subagent with subagent_type general-purpose whose prompt begins: "Read <absolute path to the roster file> and fully adopt that agent definition (role, approach, constraints). Then execute the following task: ...". This costs no registered-agent context. Pick at most the 2 best-matching roles; if nothing matches, use a plain general-purpose agent instead of forcing a bad match.
+Roster files live at `${CLAUDE_PLUGIN_ROOT}/roster/`. To use a role: Read the roster file, then spawn a team member (Agent tool with your `team_name` set, subagent_type `general-purpose`) whose prompt begins: "Read <absolute path to the roster file> and fully adopt that agent definition (role, approach, constraints). Then execute the following task: ...". This costs no registered-agent context. Pick at most the 2 best-matching roles; if nothing matches, use a plain general-purpose team member instead of forcing a bad match.
 
 Roles are grouped by theme (backend/security/testing first, niche last); each roster file is one self-contained agent definition even when a row lists several.
 

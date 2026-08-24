@@ -20,6 +20,8 @@ The script reads the member/pane mapping from the team config, scans every `/tmp
 
 A **mixed socket is not a failure** — the snapshot succeeds and records both lists. **Ambiguous matching is fail-closed**: if several sockets match equally and cannot be told apart, the script refuses to write a snapshot rather than guess.
 
+Pane matching is strict: a pane counts as a team member's only when the pane ID, the agent type appearing in the pane title, AND the recorded cwd all match the team config. Config or title drift therefore produces a zero-match snapshot, not a wrong match. **A zero-match snapshot is NOT a pass**: `ok: true` with `socket: null` or an empty `target_panes` means the team's panes could not be identified — treat it as a failure, investigate (config drift? panes already gone? title mismatch?), and do not proceed to `TeamDelete` on its strength. Always print the snapshot JSON and check `target_panes` is non-empty before continuing.
+
 Successful output (mixed socket):
 
 ```json
@@ -31,7 +33,7 @@ Successful output (mixed socket):
   "cleanup_mode": "pane",
   "target_panes": ["%1", "%2"],
   "outside_panes": ["%0"],
-  "live_panes": [{"id": "%1"}, {"id": "%2"}]
+  "live_panes": [{"id": "%1", "pid": "…", "command": "…", "title": "…"}, {"id": "%2", "…": "…"}]
 }
 ```
 
@@ -53,7 +55,7 @@ If the snapshot returns `ok: false`, STOP — do not proceed, and never call `Te
 Unless `--skip-doc-flush` is set:
 
 1. Check if `team-doc-updater` is present in the team config.
-2. If yes: call SendMessage to `team-doc-updater` (subagent_type: `podium/team-doc-updater`) with:
+2. If yes: call SendMessage to the `team-doc-updater` team member with:
    > "Final flush before shutdown. Please complete any pending documentation updates and confirm when done."
 3. Wait for team-doc-updater to confirm (or timeout after 60 seconds).
 4. Report: "Docs flushed: {list of files updated}".
@@ -62,7 +64,7 @@ If `--skip-doc-flush` is set or `team-doc-updater` is not in the team: skip this
 
 ## Phase 3: Ordered Shutdown Requests
 
-Send a `shutdown_request` to every non-lead member named in the config, in this order:
+Send a `shutdown_request` to every member named in the config, in this order:
 
 1. **Implementers, reviewers, debuggers** (in parallel)
 2. **team-test-runner**
@@ -122,7 +124,7 @@ Never delete team/task directories by hand — normal metadata cleanup is `TeamD
 python3 ${CLAUDE_PLUGIN_ROOT}/scripts/team_shutdown.py verify <team-name>
 ```
 
-Completion criterion — both must hold: no live panes remain AND the team metadata is gone.
+Completion criterion — both must hold: no live **target** panes remain AND the team metadata is gone. The lead's own pane is intentionally outside the mechanism: when the invoking session is the lead it has no team pane at all, and a spawned squad-lead pane is excluded from `target_panes` by the script — it is expected to end with its own session, not via drain. `outside_panes` are never waited on or touched.
 
 ```json
 {"phase": "verify", "ok": true, "live_panes": []}

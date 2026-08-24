@@ -48,11 +48,11 @@ Build your assigned component or feature slice within strict file ownership boun
 When implementation is complete, message `team-test-runner`:
 - Specify which test commands to run (e.g., `npm test`, `pytest`, `cargo test`)
 - Specify which build commands to verify (e.g., `npm run build`, `make`)
-- Wait for test-runner confirmation before marking task complete
+- Wait for test-runner confirmation before reporting completion
 
 ### Phase 5: Report
 
-- After test-runner confirms pass: mark your task as completed via TaskUpdate
+- After test-runner confirms pass: report `READY_FOR_SIGNOFF` with evidence to the team lead; the lead signs off and closes the task (see ${CLAUDE_PLUGIN_ROOT}/protocols/reporting.md — do not self-complete unless your task prompt explicitly authorizes it)
 - Message the team lead with a summary of changes + test results
 - Note any integration concerns for other teammates
 - Flag any deviations from the original plan

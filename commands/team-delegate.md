@@ -41,7 +41,7 @@ If `--message` is provided:
 If `--flush-docs` is provided:
 1. Call TaskList to read current task state
 2. Compile a summary of: completed tasks, in-progress tasks, and any modified files mentioned in task notes
-3. Call SendMessage to `team-doc-updater` (subagent_type: `podium/team-doc-updater`) with the summary and instruction: "Documentation checkpoint triggered manually. Please update docs based on the following state summary and confirm when done."
+3. Call SendMessage to the `team-doc-updater` team member with the summary and instruction: "Documentation checkpoint triggered manually. Please update docs based on the following state summary and confirm when done."
 4. Confirm: "Doc flush sent to team-doc-updater."
 
 ---
@@ -52,7 +52,7 @@ If `--rebalance` is provided:
 1. Call TaskList to get all tasks
 2. For each implementer/reviewer/debugger member, count tasks with status `in_progress` or `pending` assigned to them
 3. Identify idle members: 0 tasks assigned
-4. Identify overloaded members: 3 or more tasks assigned
+4. Identify overloaded members: assignments exceeding the baton-rotation lifetime caps in ${CLAUDE_PLUGIN_ROOT}/protocols/reporting.md (more than 4 mechanical or more than 2 judgment-dense tasks)
 5. NOTE: `team-test-runner` and `team-doc-updater` are **exempt from rebalancing** — they are reactive agents, not task workers. Do not include them in workload counts or suggestions.
 6. Generate rebalancing suggestions (e.g., move tasks from overloaded to idle implementers)
 7. Display suggestions and ask user for confirmation before executing any TaskUpdate calls
