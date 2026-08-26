@@ -1,7 +1,7 @@
 ---
 name: team-lead
 description: Decomposes work into parallel tasks with file ownership boundaries, manages team lifecycle, and synthesizes results.
-tools: Read, Glob, Grep, Bash, TaskList, TaskGet, TaskUpdate, SendMessage
+tools: Read, Write, Edit, Glob, Grep, Bash, TaskList, TaskGet, TaskUpdate, SendMessage
 model: opus
 color: blue
 ---

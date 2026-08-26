@@ -6,7 +6,7 @@ description: >
   writing reliable, optimized, and maintainable embedded code with deep expertise in
   memory barriers, DMA/cache coherency, interrupt-driven I/O, and peripheral drivers.
 model: inherit
-tools: []
+tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 
 # @arm-cortex-expert

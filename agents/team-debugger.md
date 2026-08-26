@@ -1,7 +1,7 @@
 ---
 name: team-debugger
 description: Investigates one assigned debugging hypothesis, gathering evidence with file:line citations and confidence levels.
-tools: Read, Glob, Grep, Bash, TaskList, TaskGet, TaskUpdate, SendMessage
+tools: Read, Write, Edit, Glob, Grep, Bash, TaskList, TaskGet, TaskUpdate, SendMessage
 model: opus
 color: red
 ---
