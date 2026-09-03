@@ -20,7 +20,7 @@ The main conversation (orchestrator) does NOT write the plan itself — plan aut
 
 1. **REQUIRED SUB-SKILL:** Use `podium:team-spawn` to create a team (TeamCreate).
 2. Use `podium:team-roster` to pick ONE implementer identity suited to the project's domain (backend, frontend, systems, etc.).
-3. Spawn that member with **model: opus**. Its task: read the spec, follow this skill's rules (Two-Stage Writing Process below), write the complete plan to the plan file, run the Self-Review, then report `READY_FOR_SIGNOFF` with only: plan file path, task list summary (one line per task), and self-review results. It must NOT paste the plan body back.
+3. Spawn that member with **model: opus**. Its task: read the spec, follow this skill's rules (Two-Stage Writing Process below), write the plan to the plan file section by section — never in a single write (see Incremental Writing below), run the Self-Review, then report `READY_FOR_SIGNOFF` with only: plan file path, task list summary (one line per task), and self-review results. It must NOT paste the plan body back.
 4. The authoring member is a worker: it may not spawn subagents, teams, or workflows. Both stages are done serially by this one member.
 5. On receipt, the main conversation spot-checks 1–2 tasks in the plan file (interfaces consistent, code steps complete, acceptance criteria mechanically checkable) before sign-off. Sign-off gates execution handoff.
 
@@ -62,6 +62,8 @@ Write the plan in this order — never interleave the stages:
 - "Commit" - step (exact git commands)
 
 If Stage 2 reveals a skeleton mistake (missing parameter, wrong type), fix the skeleton block first, re-check every other task that consumes that interface, then continue.
+
+**Incremental writing:** Never compose the whole plan in memory and write it in one call — large single writes time out. Write the file in sections: first the header and every task's skeleton block (one write per few tasks), then append each task's Stage 2 steps task-by-task with separate edits.
 
 ## Plan Document Header
 
