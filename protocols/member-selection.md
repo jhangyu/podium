@@ -4,10 +4,10 @@ Referenced by: `podium:team-spawn`, `podium:team-fable`.
 
 ## Selection Tiers
 
-Every specialist slot is filled by walking three tiers in order — take the first tier with a capability match:
+Every slot — specialist and scaffolding alike — is matched against the roster first, then walked down the tiers; take the first tier with a capability match:
 
-1. **Registered agents** (`${CLAUDE_PLUGIN_ROOT}/agents/`, subagent_type prefix `podium:`): team-lead, team-reviewer, team-debugger, team-implementer, team-test-runner, team-doc-updater, architect-reviewer, code-reviewer, legacy-modernizer, performance-engineer, c-pro, cpp-pro, golang-pro, rust-pro.
-2. **Roster specialists** (115 roles): Read `${CLAUDE_PLUGIN_ROOT}/skills/team-roster/references/details.md` and match roles against the task. Spawn as `general-purpose`; the task prompt MUST begin: `Read <absolute path to the roster file> and fully adopt that agent definition (role, approach, constraints). Then execute the following task: ...`. Use the model from the roster file's frontmatter.
+1. **Roster specialists** (`podium:team-roster`, 115 roles): Read `${CLAUDE_PLUGIN_ROOT}/skills/team-roster/references/details.md` and match roles against the task. Spawn as `general-purpose`; the task prompt MUST begin: `Read <absolute path to the roster file> and fully adopt that agent definition (role, approach, constraints). Then execute the following task: ...`. Use the model from the roster file's frontmatter.
+2. **Registered agents** (`${CLAUDE_PLUGIN_ROOT}/agents/`, subagent_type prefix `podium:`): team-lead, team-reviewer, team-debugger, team-implementer, team-test-runner, team-doc-updater, architect-reviewer, code-reviewer, legacy-modernizer, performance-engineer, c-pro, cpp-pro, golang-pro, rust-pro.
 3. **`podium:team-implementer`** — generic builder, last resort only when tiers 1–2 have no match.
 
 Capability signals come from the task description (`$ARGUMENTS` + conversation context) corroborated by repo facts: manifest files (`package.json`, `pyproject.toml`, `go.mod`, `Cargo.toml`), migrations directories, `Dockerfile`, test commands. Do not assign a specialist the repo facts contradict.
@@ -16,7 +16,7 @@ Capability signals come from the task description (`$ARGUMENTS` + conversation c
 
 - **One independently verifiable deliverable = one member.** Parallel is the default: enumerate deliverables first; that count is the number of specialist slots.
 - **Serial is a claim that requires evidence** — name the shared data, state, or ordering between steps; if you can't, they are independent deliverables. A proven serial chain gets exactly one worker **at a time** (see the baton rotation rules in `${CLAUDE_PLUGIN_ROOT}/protocols/reporting.md`) — never concurrent capture/implement/verify members.
-- **Implementer count per squad**: one implementer per independently verifiable deliverable, cap 3 per squad. A proven chain gets one implementer at a time, rotated per baton rotation.
+- **Implementer count per squad**: one implementer per independently verifiable deliverable, **3–5 per round**, counting implementers only — other members are budgeted separately. Below 3 only for a genuinely small task or a proven chain (one implementer at a time, rotated per baton rotation) — state the reason. Above 5, split into rounds.
 - **Milestone sizing gate**: after decomposing, divide the round's task count by the member count. If any member would carry more than 4 tasks (or more than 2 judgment-dense tasks), the milestone is too large — split it into more rounds instead of loading one member.
 - **Squad count**: derived from truly independent work streams (default 2, hard max 3); a task with a single stream runs one squad — do not pad squads to fill the shape.
 - `--members N` overrides the derived specialist-slot count; scaffolding conditions still apply.
