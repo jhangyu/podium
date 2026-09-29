@@ -2,13 +2,17 @@
 """Inspect and drain tmux-backed Claude agent teams safely.
 
 Usage:
+  python team_shutdown.py discover
   python team_shutdown.py snapshot TEAM
   python team_shutdown.py status TEAM
   python team_shutdown.py drain TEAM --timeout 15
   python team_shutdown.py verify TEAM
 
-Run snapshot before sending shutdown requests and before TeamDelete. The script
-never deletes team/task metadata; the caller must use TeamDelete after drain.
+Run snapshot before sending shutdown requests and before final cleanup
+(TeamDelete in legacy mode; team-dir removal in implicit mode, >= 2.1.178).
+The script never deletes team/task metadata; the caller performs cleanup
+after drain. In implicit mode the team dir may lack config.json; commands
+degrade to pane/process enumeration. Use `discover` to list team dirs.
 """
 
 from __future__ import annotations
@@ -39,9 +43,15 @@ def snapshot_path(team: str) -> Path:
 
 
 def read_config(team: str) -> dict:
+    """Return the team config, or {} when absent (implicit-mode team dir)."""
     path = config_path(team)
     if not path.exists():
-        raise RuntimeError(f"team config missing: {path}; run snapshot before TeamDelete")
+        print(
+            "config.json absent (implicit-mode team dir): "
+            "member list unavailable, using process enumeration",
+            file=sys.stderr,
+        )
+        return {}
     return json.loads(path.read_text())
 
 
@@ -219,6 +229,28 @@ def report(team: str, phase: str, snapshot: dict, live: list[dict[str, str]], ok
     return 0 if ok else 1
 
 
+def command_discover() -> int:
+    teams_dir = CLAUDE_HOME / "teams"
+    if not teams_dir.exists():
+        print("no teams dir:", teams_dir)
+        return 0
+    for team_dir in sorted(path for path in teams_dir.iterdir() if path.is_dir()):
+        config_file = team_dir / "config.json"
+        if config_file.exists():
+            try:
+                config = json.loads(config_file.read_text())
+                members = [member.get("name", "?") for member in config.get("members", [])]
+                source = "config"
+            except (json.JSONDecodeError, OSError):
+                members = []
+                source = "config-unreadable"
+        else:
+            members = sorted(inbox.stem for inbox in (team_dir / "inboxes").glob("*.json"))
+            source = "inboxes (config.json absent)"
+        print(f"{team_dir.name}\t[{source}]\tmembers: {', '.join(members) or '(none)'}")
+    return 0
+
+
 def command_snapshot(team: str) -> int:
     snapshot = save_snapshot(team)
     live = live_team_panes(snapshot)
@@ -309,6 +341,7 @@ def command_verify(team: str) -> int:
 def main() -> int:
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(dest="command", required=True)
+    subparsers.add_parser("discover")
     for name in ("snapshot", "status", "verify"):
         subparser = subparsers.add_parser(name)
         subparser.add_argument("team")
@@ -318,6 +351,8 @@ def main() -> int:
     args = parser.parse_args()
 
     try:
+        if args.command == "discover":
+            return command_discover()
         if args.command == "snapshot":
             return command_snapshot(args.team)
         if args.command == "status":
@@ -328,7 +363,7 @@ def main() -> int:
     except RuntimeError as error:
         print(
             json.dumps(
-                {"team": args.team, "phase": args.command, "ok": False, "error": str(error)},
+                {"team": getattr(args, "team", None), "phase": args.command, "ok": False, "error": str(error)},
                 indent=2,
             )
         )

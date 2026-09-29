@@ -27,7 +27,7 @@ Follow the language policy in the reporting protocol: read ${CLAUDE_PLUGIN_ROOT}
 
 Generate a team name: `review-{timestamp}`.
 
-Use the `TeamCreate` tool with `displayMode: "tmux"` to create the team, enabling real-time inter-agent communication and visibility. Then use TaskCreate per reviewer.
+Team creation: follow `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md` (LEGACY: `TeamCreate` with `displayMode: "tmux"`; IMPLICIT: skip). Then use TaskCreate per reviewer.
 
 Default dimensions and agent mapping:
 - `security` → `podium:team-reviewer` with security focus

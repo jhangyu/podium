@@ -60,7 +60,7 @@ Follow the language policy in the reporting protocol: read ${CLAUDE_PLUGIN_ROOT}
 
 ## Phase 3: Team Spawn
 
-1. Use the `TeamCreate` tool with `displayMode: "tmux"` and team name `refactor-{timestamp}`, enabling real-time inter-agent communication and visibility
+1. Team creation: follow `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md` (LEGACY: `TeamCreate` with `displayMode: "tmux"`; IMPLICIT: skip); team name/label `refactor-{timestamp}`
 2. Decompose approved plan into work streams with exclusive file ownership (no overlaps)
 3. Spawn `podium:team-lead` to coordinate
 4. For each work stream, spawn `podium:team-implementer`:

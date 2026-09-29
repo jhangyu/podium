@@ -57,7 +57,7 @@ A **round** = one milestone. Follow the rounds and review protocol: read ${CLAUD
 
 ### Phase 2 — Spawn
 
-1. `TeamCreate` with `displayMode: "tmux"`.
+1. Team creation: follow `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md` (LEGACY: `TeamCreate` with `displayMode: "tmux"`; IMPLICIT: skip).
 2. Spawn **all** members from the orchestrator (squad leads never spawn agents). Every
    spawn call's `name` MUST follow the member naming rule in the reporting protocol
    (${CLAUDE_PLUGIN_ROOT}/protocols/reporting.md).

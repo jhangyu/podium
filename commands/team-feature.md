@@ -36,7 +36,7 @@ Follow the language policy in the reporting protocol: read ${CLAUDE_PLUGIN_ROOT}
 
 ## Phase 3: Team Spawn
 
-Use the `TeamCreate` tool with `displayMode: "tmux"` to create the team. The tmux display mode enables real-time inter-agent communication and visibility across all team members. Derive the team name from the feature description or `--branch` value.
+Team creation: follow `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md` (LEGACY: `TeamCreate` with `displayMode: "tmux"`; IMPLICIT: skip). Derive the team name from the feature description or `--branch` value.
 
 Spawn the following agents (all using subagent_type prefix `podium:`):
 - ONE `podium:team-lead` — coordinates streams, owns integration files

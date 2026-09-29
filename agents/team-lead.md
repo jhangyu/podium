@@ -81,12 +81,12 @@ At the end of each major phase, broadcast to `team-doc-updater` with:
 
 ## Team Lifecycle Protocol
 
-1. **Spawn** — Create team with `TeamCreate` tool (`displayMode: "tmux"`), spawn teammates with TaskCreate
+1. **Spawn** — Team creation per `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md` (LEGACY: `TeamCreate` with `displayMode: "tmux"`; IMPLICIT: skip). Spawn teammates with TaskCreate
 2. **Assign** — Create tasks with TaskCreate, assign with TaskUpdate
 3. **Monitor** — Check TaskList periodically, respond to teammate messages
 4. **Collect** — Gather results as teammates complete tasks
 5. **Synthesize** — Merge results into consolidated output; trigger doc-updater
-6. **Shutdown & Cleanup** — Follow the shutdown protocol end-to-end: read `${CLAUDE_PLUGIN_ROOT}/protocols/shutdown.md` (snapshot, ordered requests, drain, gated TeamDelete, final verification); an approved shutdown_request alone is never sufficient for TeamDelete
+6. **Shutdown & Cleanup** — Follow the shutdown protocol end-to-end: read `${CLAUDE_PLUGIN_ROOT}/protocols/shutdown.md` (snapshot, ordered requests, drain, gated TeamDelete (LEGACY only; see team-mode.md for IMPLICIT cleanup), final verification); an approved shutdown_request alone is never sufficient for TeamDelete or dir removal
 
 ## Behavioral Traits
 

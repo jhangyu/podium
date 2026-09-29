@@ -104,19 +104,27 @@ Required output before continuing:
 
 If drain returns `ok: false`, STOP — do not call `TeamDelete`.
 
+## Mode note
+
+Detect the mode per `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md`. Phases 0–4 (snapshot, doc flush, shutdown requests, drain) are identical in both modes; only Phase 5 differs. IMPLICIT: config lives at `~/.claude/teams/<session-uuid>/` — use that as `<team-name>` for the scripts; find it via `ls ~/.claude/teams/` (the one whose config.json lists your members). No config.json → skip the snapshot/drain script and verify shutdown via `pgrep` of member processes (and `tmux ls`); the optional dir removal may then proceed.
+
 ## Phase 5: Delete metadata (TeamDelete)
 
 Run only after snapshot **and** drain have both succeeded, and unless `--keep-tasks` is set:
+
+LEGACY mode:
 
 ```text
 TeamDelete
 ```
 
+IMPLICIT mode (no TeamDelete tool): skip the call. The session-level team dirs remain; after snapshot and drain both succeeded, they may optionally be removed with `rm -rf ~/.claude/teams/<session-uuid> ~/.claude/tasks/<session-uuid>` (confirm the path is the current session's UUID directory first). If either gate failed, leave them untouched.
+
 This removes the team and task directories under `~/.claude/teams/{team-name}/`.
 
 **If either snapshot or drain failed, calling `TeamDelete` is forbidden.** Deleting the config destroys the pane-ownership evidence and makes residual panes impossible to clean up safely. Keep the config and the snapshot, fix the problem, and re-run drain.
 
-Never delete team/task directories by hand — normal metadata cleanup is `TeamDelete`'s job.
+In LEGACY mode never delete team/task directories by hand — metadata cleanup is `TeamDelete`'s job. In IMPLICIT mode the manual removal above is the only cleanup.
 
 ## Phase 6: Final verification
 
@@ -149,7 +157,7 @@ Docs updated: {list from doc-updater flush}
 python3 ${CLAUDE_PLUGIN_ROOT}/scripts/team_shutdown.py snapshot <team-name>
 # SendMessage: shutdown_request to each member, in order
 python3 ${CLAUDE_PLUGIN_ROOT}/scripts/team_shutdown.py drain <team-name> --timeout 15   # re-run to keep waiting; max 25
-# TeamDelete (only after snapshot AND drain both succeeded)
+# TeamDelete (legacy only; implicit mode: optional rm of session dirs; only after snapshot AND drain both succeeded)
 python3 ${CLAUDE_PLUGIN_ROOT}/scripts/team_shutdown.py verify <team-name>
 ```
 
@@ -163,7 +171,7 @@ python3 ${CLAUDE_PLUGIN_ROOT}/scripts/team_shutdown.py verify <team-name>
 - `shutdown_approved` and idle notifications are not evidence of process termination.
 - Ambiguous socket matching (several sockets match equally and cannot be distinguished) → fail closed: refuse both snapshot and termination.
 - The default tmux socket is never scanned; the script scans every `/tmp/tmux-<uid>/claude-swarm-*` socket.
-- Never remove team/task directories manually.
+- LEGACY: never remove team/task directories manually. IMPLICIT: only as described in Phase 5, after the gates passed.
 
 ## Residue Checks
 

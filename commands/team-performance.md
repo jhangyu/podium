@@ -73,7 +73,7 @@ Follow the language policy in the reporting protocol: read ${CLAUDE_PLUGIN_ROOT}
 
 ## Phase 4: Implementation (if user approves)
 
-1. Use the `TeamCreate` tool with `displayMode: "tmux"` and team name `perf-{timestamp}`, enabling real-time inter-agent communication and visibility
+1. Team creation: follow `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md` (LEGACY: `TeamCreate` with `displayMode: "tmux"`; IMPLICIT: skip); team name/label `perf-{timestamp}`
 2. Spawn `podium:team-lead` to coordinate
 3. Spawn `podium:team-implementer` agents for each approved optimization stream
 4. Keep `podium:team-test-runner` active to run benchmarks after each change

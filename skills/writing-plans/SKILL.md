@@ -18,7 +18,7 @@ Write comprehensive implementation plans assuming the implementer has zero conte
 
 The main conversation (orchestrator) does NOT write the plan itself — plan authoring consumes too much context. Instead:
 
-1. **REQUIRED SUB-SKILL:** Use `podium:team-spawn` to create a team (TeamCreate).
+1. **REQUIRED SUB-SKILL:** Use `podium:team-spawn` to create a team (TeamCreate on legacy Claude Code; implicit-team mode has no TeamCreate — see `protocols/team-mode.md`).
 2. Use `podium:team-roster` to pick ONE implementer identity suited to the project's domain (backend, frontend, systems, etc.).
 3. Spawn that member with **model: opus**. Its task: read the spec, follow this skill's rules (Two-Stage Writing Process below), write the plan to the plan file section by section — never in a single write (see Incremental Writing below), run the Self-Review, then report `READY_FOR_SIGNOFF` with only: plan file path, task list summary (one line per task), and self-review results. It must NOT paste the plan body back.
 4. The authoring member is a worker: it may not spawn subagents, teams, or workflows. Both stages are done serially by this one member.

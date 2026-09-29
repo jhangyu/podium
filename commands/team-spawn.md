@@ -100,7 +100,7 @@ Follow the language policy in the reporting protocol: read ${CLAUDE_PLUGIN_ROOT}
 
 ## Team Creation
 
-1. Use the `TeamCreate` tool with `displayMode: "tmux"` to create the team. The tmux display mode enables real-time inter-agent communication and visibility across all team members.
+1. Team creation: follow `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md` (LEGACY: `TeamCreate` with `displayMode: "tmux"`; IMPLICIT: skip).
 2. Call TaskCreate once per member to assign their initial role context and any relevant instructions. All task prompts MUST be written in English, MUST embed the reporting-discipline block from the reporting protocol, and for roster-adopted members MUST include the full Team Protocol Preamble from the member selection protocol.
 3. If `--delegate` is set, include delegation hints in each task prompt: owned files, blockedBy relationships, and acceptance criteria placeholders.
 

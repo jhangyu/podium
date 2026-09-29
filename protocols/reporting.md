@@ -5,6 +5,7 @@ Referenced by: `podium:team-spawn`, `podium:team-fable`, `podium:team-delegate`,
 ## Reporting Discipline (embed in every member task prompt)
 
 - **End-of-turn delivery**: plain text output is INVISIBLE to teammates — delivery only happens via a SendMessage tool call. Any turn that produced results (test output, completed work, findings, a verdict) MUST end with SendMessage to the team-lead / squad lead (or to the main agent, in presets without a lead) as the LAST action of that turn; results not sent before the turn ends die with the turn and stall the team.
+- **Reply address**: report via SendMessage to `team-lead`; if unreachable ("No agent named ... is reachable"), send to `main`. See `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md`.
 - **Artifact-first verification**: whoever runs verification commands (test-runner or lead) writes the raw output to a file in the working tree or worktree (e.g. `tmp/verify/<timestamp>.txt`) BEFORE reporting; the report message carries the file path + a one-line summary. A dropped message then loses nothing — the lead recovers by reading the file.
 - **Long-running processes**: never babysit. Launch detached (nohup + log file), sanity-check once, then report PID + log path to your lead and yield. Repeated polling of a still-running process is the signal to stop and report instead. A detached launch is a handoff, not a completed verification.
 - A precise "blocked because X" report is a successful outcome; a guessed implementation is not.

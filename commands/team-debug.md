@@ -47,7 +47,7 @@ Follow the language policy in the reporting protocol: read ${CLAUDE_PLUGIN_ROOT}
 
 Generate a team name: `debug-{timestamp}`.
 
-Use the `TeamCreate` tool with `displayMode: "tmux"` to create the team, enabling real-time inter-agent communication and visibility. Then spawn agents:
+Team creation: follow `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md` (LEGACY: `TeamCreate` with `displayMode: "tmux"`; IMPLICIT: skip). Then spawn agents:
 - ONE `podium:team-debugger` per hypothesis (assign one hypothesis per agent)
 - ONE `podium:team-doc-updater` — will document the runbook
 
