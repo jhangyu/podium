@@ -9,7 +9,7 @@ Create & spawn a coordinated agent team. Presets define the team **shape**; the 
 
 ## Pre-flight Checks
 
-1. Verify the `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` environment variable is set. If not, halt and instruct the user to set it before proceeding.
+1. Do NOT pre-check the `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` env var. If a spawn or TeamCreate fails with a teams-disabled error, halt and instruct the user to set `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`.
 2. Parse arguments:
    - First positional arg: preset name or `custom`
    - `--name <team-name>`: override default team name
@@ -100,9 +100,10 @@ Follow the language policy in the reporting protocol: read ${CLAUDE_PLUGIN_ROOT}
 
 ## Team Creation
 
-1. Team creation: follow `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md` (LEGACY: `TeamCreate` with `displayMode: "tmux"`; IMPLICIT: skip).
-2. Call TaskCreate once per member to assign their initial role context and any relevant instructions. All task prompts MUST be written in English, MUST embed the reporting-discipline block from the reporting protocol, and for roster-adopted members MUST include the full Team Protocol Preamble from the member selection protocol.
-3. If `--delegate` is set, include delegation hints in each task prompt: owned files, blockedBy relationships, and acceptance criteria placeholders.
+1. Detect mode and create the team: follow `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md` (LEGACY: `TeamCreate` with `displayMode: "tmux"`; IMPLICIT: no `TeamCreate` — spawning members IS team creation).
+2. Spawn all members in ONE message: one `Agent` call per member, each with `name` (session-unique), `team_name` (the team name — required in BOTH modes; delegation gates reject Agent calls without it, even though the harness ignores it in IMPLICIT mode), `subagent_type`, `model`, and the task prompt.
+3. Call TaskCreate once per member to assign their initial role context and any relevant instructions. All task prompts MUST be written in English, MUST embed the reporting-discipline block from the reporting protocol, and for roster-adopted members MUST include the full Team Protocol Preamble from the member selection protocol.
+4. If `--delegate` is set, include delegation hints in each task prompt: owned files, blockedBy relationships, and acceptance criteria placeholders.
 
 ## Output
 

@@ -13,7 +13,7 @@ Follow the language policy in the reporting protocol: read ${CLAUDE_PLUGIN_ROOT}
 
 ## Pre-flight Checks
 
-1. Verify `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` is set
+1. Do NOT pre-check the `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` env var; if spawning fails with a teams-disabled error, halt and instruct the user to set it to 1.
 2. Parse `$ARGUMENTS`:
    - `<target>`: path or description of codebase scope
    - `--output`: `roadmap` (actionable items only) | `report` (full inventory) | `both` — default: `both`

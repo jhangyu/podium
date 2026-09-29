@@ -9,7 +9,7 @@ Orchestrate a parallel refactoring workflow: a code-reviewer identifies issues, 
 
 ## Pre-flight Checks
 
-1. Verify `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` is set
+1. Do NOT pre-check the `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` env var; if spawning fails with a teams-disabled error, halt and instruct the user to set it to 1.
 2. Parse `$ARGUMENTS`:
    - `<target>`: file path, directory, or module description
    - `--scope`: `files` (specific files), `module` (package/module), `project` (entire codebase) — default: `module`

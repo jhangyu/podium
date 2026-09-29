@@ -30,7 +30,7 @@ is visible at a glance; the naming rule is owned by the reporting protocol
 
 ## Pre-flight
 
-1. Verify `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` is set. If not, halt and instruct the user.
+1. Do NOT pre-check the `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` env var; if spawning fails with a teams-disabled error, halt and instruct the user to set it to 1.
 2. Parse arguments:
    - Positional: the overall task description
    - `--squads N`: squad count (default **2**, hard max **3**)
