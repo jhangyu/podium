@@ -13,7 +13,7 @@ Follow the language policy in the reporting protocol: read ${CLAUDE_PLUGIN_ROOT}
 
 ## Pre-flight Checks
 
-1. Do NOT pre-check the `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` env var; if spawning fails with a teams-disabled error, halt and instruct the user to set it to 1. Spawn recipe for EVERY Agent call (per `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md`): `name` (session-unique), `team_name` (team label, e.g. `techdebt-{timestamp}`), `subagent_type`, explicit `model`; the prompt includes the `ROLE: WORKER` no-spawn line and "Report via SendMessage to `team-lead`; if unreachable, send to `main`." Gate hooks deny any call without `team_name`, even in IMPLICIT mode.
+1. Do NOT pre-check the `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` env var; if spawning fails with a teams-disabled error, halt and instruct the user to set it to 1. Spawn recipe for EVERY Agent call (per `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md`): `name` (session-unique), `team_name` (team label, e.g. `techdebt-{timestamp}`), `subagent_type`, explicit `model`; the prompt includes the `ROLE: WORKER` no-spawn line and "Report via SendMessage to `team-lead`; if unreachable, send to `main`." Always include `team_name` (legacy gates require it; harmless in IMPLICIT).
 2. Parse `$ARGUMENTS`:
    - `<target>`: path or description of codebase scope
    - `--output`: `roadmap` (actionable items only) | `report` (full inventory) | `both` — default: `both`

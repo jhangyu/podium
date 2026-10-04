@@ -12,7 +12,7 @@ Spawn a coordinated agent team. A preset fixes the team **shape**; members and c
 - Do not pre-check `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`; on a teams-disabled error, halt and tell the user to set it to `1`.
 
 ## Spawn recipe (first call must succeed)
-Every `Agent` call carries ALL of: `name` (session-unique, `{role}-{model}`; suffix `-2` if taken), `team_name` (the team label — required even though IMPLICIT mode ignores it; gate hooks deny calls without it), `subagent_type`, explicit `model`, and a prompt that contains:
+Every `Agent` call carries ALL of: `name` (session-unique, `{role}-{model}`; suffix `-2` if taken), `team_name` (the team label — always include it: legacy gates require it; harmless in IMPLICIT), `subagent_type`, explicit `model`, and a prompt that contains:
 - `ROLE: WORKER — you may NOT spawn agents, teams, or workflows. If the task needs delegation, STOP and report back.`
 - `Report via SendMessage to team-lead; if unreachable, send to main.`
 

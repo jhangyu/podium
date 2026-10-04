@@ -4,7 +4,7 @@ Referenced by: every command that creates or shuts down a team, `protocols/shutd
 
 ## Spawn recipe (both modes — the first call must succeed)
 
-Every `Agent` call carries ALL of: `name` (session-unique), `team_name` (the team label), `subagent_type`, explicit `model`; the prompt contains the `ROLE: WORKER` no-spawn line and "Report via SendMessage to `team-lead`; if unreachable, send to `main`." Never send a name-only Agent call: gate hooks deny any call without a non-empty `team_name`, even in IMPLICIT mode where the harness ignores it.
+Every `Agent` call carries ALL of: `name` (session-unique), `team_name` (the team label), `subagent_type`, explicit `model`; the prompt contains the `ROLE: WORKER` no-spawn line and "Report via SendMessage to `team-lead`; if unreachable, send to `main`." Always include `team_name` (legacy gates require it; harmless in IMPLICIT).
 
 ## Detect the mode (once, before any team creation)
 

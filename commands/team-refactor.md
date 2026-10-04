@@ -18,7 +18,7 @@ Orchestrate a parallel refactoring workflow: a code-reviewer identifies issues, 
 
 ## Phase 1: Analysis
 
-Team label: generate `refactor-{timestamp}` now; it is the `team_name` for every Agent call from here on (all phases).
+Team label: generate `refactor-{timestamp}` now; it is the `team_name` for every Agent call from here on (all phases). LEGACY builds: run TeamCreate with this label now, before the first spawn.
 
 1. Spawn `podium:team-reviewer` with dimension `architecture` to scan the target for:
    - Code smells (long methods, duplication, god classes, magic numbers)
@@ -62,7 +62,7 @@ Follow the language policy in the reporting protocol: read ${CLAUDE_PLUGIN_ROOT}
 
 ## Phase 3: Team Spawn
 
-1. Team creation: follow `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md` (LEGACY: `TeamCreate` with `displayMode: "tmux"`; IMPLICIT: skip creation). Spawn recipe for EVERY Agent call in every phase, including the Phase 1-2 analysts: `name` (session-unique), `team_name` (team label), `subagent_type`, explicit `model`; the prompt includes the `ROLE: WORKER` no-spawn line and "Report via SendMessage to `team-lead`; if unreachable, send to `main`." Gate hooks deny any call without `team_name`, even in IMPLICIT mode; reuse the Phase 1 team label
+1. Team mode per `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md` (LEGACY team already created in Phase 1). Spawn recipe for EVERY Agent call in every phase, including the Phase 1-2 analysts: `name` (session-unique), `team_name` (team label), `subagent_type`, explicit `model`; the prompt includes the `ROLE: WORKER` no-spawn line and "Report via SendMessage to `team-lead`; if unreachable, send to `main`." Always include `team_name` (legacy gates require it; harmless in IMPLICIT); reuse the Phase 1 team label
 2. Decompose approved plan into work streams with exclusive file ownership (no overlaps)
 3. Spawn `podium:team-lead` to coordinate
 4. For each work stream, spawn `podium:team-implementer`:

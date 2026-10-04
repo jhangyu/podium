@@ -81,7 +81,7 @@ At the end of each major phase, broadcast to `team-doc-updater` with:
 
 ## Team Lifecycle Protocol
 
-1. **Spawn** — Team creation per `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md` (LEGACY: `TeamCreate` with `displayMode: "tmux"`; IMPLICIT: skip creation). Spawn recipe for EVERY Agent call: `name` (session-unique), `team_name` (team label), `subagent_type`, explicit `model`; the prompt includes the `ROLE: WORKER` no-spawn line and "Report via SendMessage to `team-lead`; if unreachable, send to `main`." Gate hooks deny any call without `team_name`, even in IMPLICIT mode. Spawn each teammate with one such Agent call; TaskCreate is for tickets only, never for spawning
+1. **Spawn** — Team creation per `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md` (LEGACY: `TeamCreate` with `displayMode: "tmux"`; IMPLICIT: skip creation). Spawn recipe for EVERY Agent call: `name` (session-unique), `team_name` (team label), `subagent_type`, explicit `model`; the prompt includes the `ROLE: WORKER` no-spawn line and "Report via SendMessage to `team-lead`; if unreachable, send to `main`." Always include `team_name` (legacy gates require it; harmless in IMPLICIT). Spawn each teammate with one such Agent call; TaskCreate is for tickets only, never for spawning
 2. **Assign** — Create tasks with TaskCreate, assign with TaskUpdate
 3. **Monitor** — Check TaskList periodically, respond to teammate messages
 4. **Collect** — Gather results as teammates complete tasks
