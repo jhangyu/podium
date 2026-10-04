@@ -206,11 +206,11 @@ Update `state.json`: set `current_step` to 4, add step 3 to `completed_steps`.
 
 ### Step 4: Verify Test Failure
 
-Use the Task tool with the local code-reviewer agent:
+Use the Task tool with the local team-reviewer agent (dimension: architecture, techdebt):
 
 ```
 Task:
-  subagent_type: "podium:code-reviewer"
+  subagent_type: "podium:team-reviewer"
   description: "Verify tests fail correctly for $FEATURE"
   prompt: |
     Verify that all tests for: $FEATURE are failing correctly.
@@ -352,11 +352,11 @@ Coverage: [metrics]
 
 Read `.tdd-cycle/05-implementation.md` and `.tdd-cycle/06-green-verification.md`.
 
-Use the Task tool with the local code-reviewer agent:
+Use the Task tool with the local team-reviewer agent (dimension: architecture, techdebt):
 
 ```
 Task:
-  subagent_type: "podium:code-reviewer"
+  subagent_type: "podium:team-reviewer"
   description: "Refactor implementation for $FEATURE"
   prompt: |
     Refactor the implementation for: $FEATURE while keeping all tests green.
@@ -534,11 +534,11 @@ Update `state.json`: set `current_step` to 12, add step 11 to `completed_steps`.
 
 Read all `.tdd-cycle/*.md` files.
 
-Use the Task tool with the local code-reviewer agent:
+Use the Task tool with the local team-reviewer agent (dimension: architecture, techdebt):
 
 ```
 Task:
-  subagent_type: "podium:code-reviewer"
+  subagent_type: "podium:team-reviewer"
   description: "Final TDD review of $FEATURE"
   prompt: |
     Perform comprehensive final review of: $FEATURE

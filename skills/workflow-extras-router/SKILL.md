@@ -16,7 +16,6 @@ This skill is an index. Identify the matching topic below, then Read the referen
 | migration plan/script generation | references/code-migrate.md | Transitioning codebases between frameworks/languages/platforms |
 | dependency upgrade execution strategy | references/deps-upgrade.md | Planning safe incremental dependency upgrades |
 | strangler-fig legacy modernization | references/legacy-modernize.md | Gradual legacy component replacement |
-| multi-reviewer coordination, finding dedup | references/multi-reviewer-patterns/SKILL.md | Organizing parallel multi-dimension code reviews |
 | competing-hypothesis parallel debugging | references/parallel-debugging/SKILL.md | Debugging with multiple potential root causes |
 | parallel feature dev, file ownership | references/parallel-feature-development/SKILL.md | Decomposing a feature into parallel agent work streams |
 | task decomposition, dependency graphs | references/task-coordination-strategies/SKILL.md | Breaking down work, balancing multi-agent workload |
@@ -30,8 +29,6 @@ This skill is an index. Identify the matching topic below, then Read the referen
 | automated documentation generation | references/doc-generate.md | Generating API docs, architecture diagrams, user guides |
 | AI-assisted root cause debugging | references/smart-debug.md | Modern debugging tools, observability, root cause analysis |
 | dependency vulnerability/license audit | references/deps-audit.md | Scanning for vulnerable/outdated/license-conflicting deps |
-| technical debt inventory and scoring | references/tech-debt.md | Inventorying debt, scoring impact, remediation planning |
-| multi-dimensional review orchestration | references/full-review.md | Architecture/security/performance/testing review in one pass |
 | PR description and review-facilitation | references/pr-enhance.md | Improving PR descriptions, test coverage notes, reviewability |
 | git workflow with quality gates | references/git-workflow.md | Code review through PR creation with gated checks |
 | new-hire onboarding planning | references/onboard.md | 90-day onboarding plans, technical/cultural integration |

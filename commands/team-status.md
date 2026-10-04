@@ -37,7 +37,7 @@ Members:
   implementer-2       team-implementer       idle
   team-test-runner    [reactive]             waiting / last: PASS #3
   team-doc-updater    [reactive]             idle / last update: README.md
-  arch-reviewer       architect-reviewer     working on task #5
+  arch-reviewer       team-reviewer (architecture)  working on task #5
 ```
 
 ### Tasks Table

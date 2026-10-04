@@ -1,7 +1,7 @@
 # Refactor and Clean Code — Detailed Reference
 
 Deep material for the `refactor-clean` skill: refactoring strategy, SOLID principle examples,
-complete refactoring scenarios, decision frameworks, modern tooling, and step-by-step guides.
+complete refactoring scenarios, modern tooling, and step-by-step guides.
 See `../SKILL.md` for the navigation/quick-start entry point.
 
 ### 2. Refactoring Strategy
@@ -129,8 +129,8 @@ class FixedDiscount(DiscountStrategy):
 
 class TieredDiscount(DiscountStrategy):
     def calculate(self, order):
-        if order.total > 1000: return order.total * 0.15
-        if order.total > 500: return order.total * 0.10
+        if order.total >= 1000: return order.total * 0.15
+        if order.total >= 500: return order.total * 0.10
         return order.total * 0.05
 
 class DiscountCalculator:
@@ -470,64 +470,6 @@ class Email {
 let userEmail = new Email("test@example.com"); // Validation automatic
 ```
 
-### 5. Decision Frameworks
-
-**Code Quality Metrics Interpretation Matrix**
-
-| Metric                | Good   | Warning      | Critical | Action                          |
-| --------------------- | ------ | ------------ | -------- | ------------------------------- |
-| Cyclomatic Complexity | <10    | 10-15        | >15      | Split into smaller methods      |
-| Method Lines          | <20    | 20-50        | >50      | Extract methods, apply SRP      |
-| Class Lines           | <200   | 200-500      | >500     | Decompose into multiple classes |
-| Test Coverage         | >80%   | 60-80%       | <60%     | Add unit tests immediately      |
-| Code Duplication      | <3%    | 3-5%         | >5%      | Extract common code             |
-| Comment Ratio         | 10-30% | <10% or >50% | N/A      | Improve naming or reduce noise  |
-| Dependency Count      | <5     | 5-10         | >10      | Apply DIP, use facades          |
-
-**Refactoring ROI Analysis**
-
-```
-Priority = (Business Value × Technical Debt) / (Effort × Risk)
-
-Business Value (1-10):
-- Critical path code: 10
-- Frequently changed: 8
-- User-facing features: 7
-- Internal tools: 5
-- Legacy unused: 2
-
-Technical Debt (1-10):
-- Causes production bugs: 10
-- Blocks new features: 8
-- Hard to test: 6
-- Style issues only: 2
-
-Effort (hours):
-- Rename variables: 1-2
-- Extract methods: 2-4
-- Refactor class: 4-8
-- Architecture change: 40+
-
-Risk (1-10):
-- No tests, high coupling: 10
-- Some tests, medium coupling: 5
-- Full tests, loose coupling: 2
-```
-
-**Technical Debt Prioritization Decision Tree**
-
-```
-Is it causing production bugs?
-├─ YES → Priority: CRITICAL (Fix immediately)
-└─ NO → Is it blocking new features?
-    ├─ YES → Priority: HIGH (Schedule this sprint)
-    └─ NO → Is it frequently modified?
-        ├─ YES → Priority: MEDIUM (Next quarter)
-        └─ NO → Is code coverage < 60%?
-            ├─ YES → Priority: MEDIUM (Add tests)
-            └─ NO → Priority: LOW (Backlog)
-```
-
 ### 6. Modern Code Quality Practices (2024-2025)
 
 **AI-Assisted Code Review Integration**
@@ -798,20 +740,6 @@ If breaking changes are introduced:
 4. Run migration scripts
 5. Execute test suite
 
-**Backward Compatibility**
-
-```python
-# Temporary adapter for smooth migration
-class LegacyOrderProcessor:
-    def __init__(self):
-        self.processor = OrderProcessor()
-
-    def process(self, order_data):
-        # Convert legacy format
-        order = Order.from_legacy(order_data)
-        return self.processor.process(order)
-```
-
 ### 11. Performance Optimizations
 
 Include specific optimizations:
@@ -841,26 +769,3 @@ def calculate_expensive_metric(data_id: str) -> float:
     # Expensive calculation cached
     return result
 ```
-
-### 12. Code Quality Checklist
-
-Ensure the refactored code meets these criteria:
-
-- [ ] All methods < 20 lines
-- [ ] All classes < 200 lines
-- [ ] No method has > 3 parameters
-- [ ] Cyclomatic complexity < 10
-- [ ] No nested loops > 2 levels
-- [ ] All names are descriptive
-- [ ] No commented-out code
-- [ ] Consistent formatting
-- [ ] Type hints added (Python/TypeScript)
-- [ ] Error handling comprehensive
-- [ ] Logging added for debugging
-- [ ] Performance metrics included
-- [ ] Documentation complete
-- [ ] Tests achieve > 80% coverage
-- [ ] No security vulnerabilities
-- [ ] AI code review passed
-- [ ] Static analysis clean (SonarQube/CodeQL)
-- [ ] No hardcoded secrets

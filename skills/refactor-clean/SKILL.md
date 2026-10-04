@@ -28,8 +28,8 @@ $ARGUMENTS
 First, analyze the current code for:
 
 - **Code Smells**
-  - Long methods/functions (>20 lines)
-  - Large classes (>200 lines)
+  - Long methods/functions
+  - Large classes
   - Duplicate code blocks
   - Dead code and unused variables
   - Complex conditionals and nested loops
@@ -53,17 +53,12 @@ First, analyze the current code for:
   - Missing caching opportunities
 
 See `references/details.md` for the refactoring strategy, worked SOLID-principle examples,
-complete before/after scenarios, decision frameworks, modern tooling configs, and the
+complete before/after scenarios, modern tooling configs, and the
 step-by-step testing/migration/performance guides (sections 2–12).
 
 ## Severity Levels
 
-Rate issues found and improvements made:
-
-**Critical**: Security vulnerabilities, data corruption risks, memory leaks
-**High**: Performance bottlenecks, maintainability blockers, missing tests
-**Medium**: Code smells, minor performance issues, incomplete documentation
-**Low**: Style inconsistencies, minor naming issues, nice-to-have features
+Rate findings per `${CLAUDE_PLUGIN_ROOT}/protocols/review.md` §Severity.
 
 ## Output Format
 

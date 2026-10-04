@@ -96,11 +96,11 @@ Update `state.json`: set `current_step` to 2, add `"01-legacy-assessment.md"` to
 
 Read `.legacy-modernize/01-legacy-assessment.md` to load assessment context.
 
-Use the Task tool with subagent_type="podium:architect-reviewer":
+Use the Task tool with subagent_type="podium:team-reviewer":
 
 ```
 Task:
-  subagent_type: "podium:architect-reviewer"
+  subagent_type: "podium:team-reviewer"
   description: "Create dependency graph and integration point catalog"
   prompt: |
     Based on the legacy assessment report below, create a comprehensive dependency graph.

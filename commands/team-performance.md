@@ -5,7 +5,9 @@ argument-hint: "<target path or description> [--lang c|cpp|go|rust|auto] [--focu
 
 # Team Performance
 
-Orchestrate a performance analysis: a performance-engineer profiles the system, language-specific pro agents review idiomatic optimizations, an architect-reviewer evaluates structural bottlenecks, and a test-runner executes benchmarks to measure actual impact.
+Orchestrate a performance analysis: a performance-engineer profiles the system, language-specific pro agents review idiomatic optimizations,
+a team-reviewer (architecture) evaluates structural bottlenecks,
+and a test-runner executes benchmarks to measure actual impact.
 
 ## Pre-flight Checks
 
@@ -39,7 +41,7 @@ Spawn 2-3 parallel investigators based on `--lang` and `--focus`:
   - Algorithm complexity hotspots
 
 **Always spawn:**
-- `podium:architect-reviewer` — focuses on:
+- `podium:team-reviewer` with dimension `architecture` — focuses on:
   - Architectural bottlenecks (synchronous flows that should be async)
   - Service boundary issues causing chattiness
   - Data flow inefficiencies
@@ -86,6 +88,9 @@ Follow the language policy in the reporting protocol: read ${CLAUDE_PLUGIN_ROOT}
 6. Broadcast final delta table to `podium:team-doc-updater`:
    - Update PERFORMANCE.md or equivalent
    - Document what was changed and measured impact
+7. Spawn ONE `podium:team-reviewer` per `${CLAUDE_PLUGIN_ROOT}/protocols/rounds-and-review.md`
+   (review cadence and the 2-cycle bound; dimensions `techdebt, architecture` plus any the diff needs) scoped to the combined diff.
+   Route findings back to the responsible implementer, then re-review.
 
 ## Phase 5: Report
 

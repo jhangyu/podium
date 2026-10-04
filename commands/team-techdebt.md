@@ -5,7 +5,9 @@ argument-hint: "<target path or description> [--output roadmap|report|both] [--h
 
 # Team Tech Debt
 
-Orchestrate a comprehensive technical debt analysis. Parallel agents scan different debt categories, an architect-reviewer assesses structural impact, and a legacy-modernizer produces a prioritized remediation roadmap. A doc-updater captures the findings into persistent documentation.
+Orchestrate a comprehensive technical debt analysis.
+Parallel agents scan different debt categories, a team-reviewer assesses structural impact, and a legacy-modernizer produces a prioritized remediation roadmap.
+A doc-updater captures the findings into persistent documentation.
 
 ## Language Policy
 
@@ -13,7 +15,12 @@ Follow the language policy in the reporting protocol: read ${CLAUDE_PLUGIN_ROOT}
 
 ## Pre-flight Checks
 
-1. Do NOT pre-check the `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` env var; if spawning fails with a teams-disabled error, halt and instruct the user to set it to 1. Spawn recipe for EVERY Agent call (per `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md`): `name` (session-unique), `team_name` (team label, e.g. `techdebt-{timestamp}`), `subagent_type`, explicit `model`; the prompt includes the `ROLE: WORKER` no-spawn line and "Report via SendMessage to `team-lead`; if unreachable, send to `main`." Always include `team_name` (legacy gates require it; harmless in IMPLICIT).
+1. Do NOT pre-check the `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` env var;
+   if spawning fails with a teams-disabled error, halt and instruct the user to set it to 1.
+   Spawn recipe for EVERY Agent call (per `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md`):
+   `name` (session-unique), `team_name` (team label, e.g. `techdebt-{timestamp}`), `subagent_type`, explicit `model`;
+   the prompt includes the `ROLE: WORKER` no-spawn line and "Report via SendMessage to `team-lead`; if unreachable, send to `main`."
+   Always include `team_name` (legacy gates require it; harmless in IMPLICIT).
 2. Parse `$ARGUMENTS`:
    - `<target>`: path or description of codebase scope
    - `--output`: `roadmap` (actionable items only) | `report` (full inventory) | `both` — default: `both`
@@ -23,42 +30,11 @@ Follow the language policy in the reporting protocol: read ${CLAUDE_PLUGIN_ROOT}
 
 Spawn 3 parallel investigators:
 
-1. **`podium:code-reviewer`** (dimension: code-debt) — scans for:
-   - Duplicated code blocks (copy-paste debt)
-   - Cyclomatic complexity hotspots (>10)
-   - Long methods (>50 lines), God classes (>500 lines)
-   - Dead code, unused exports, obsolete comments
-   - Magic numbers and hardcoded configuration (absolute paths, machine-specific values)
-   - Negative space: orphan imports, stale tests testing removed behavior, expired flags/shims/TODOs
-   - Single source of truth: constants/paths/schemas defined in two places; hand-maintained lists derivable from a declaration source
-   - Error paths: empty catches, errors swallowed into default returns
-   - Tests that cannot fail when the logic breaks; tests changed to fit the implementation
-   - Interface evolution smells: third optional parameter, boolean flags that fork behavior
-   - Doc claims with no enforcer (hook/CI/code) behind them
-
-2. **`podium:architect-reviewer`** (dimension: architecture-debt) — scans for:
-   - Circular dependencies and tight coupling
-   - Violated architectural boundaries
-   - Missing abstractions / leaky abstractions
-   - Outdated patterns (callbacks → promises, etc.)
-   - Monolithic components that should be split
-   - Plus the seven structural questions (answer each with evidence; an unanswerable question is a finding):
-     1. Right layer? Same fix in 2+ places = wrong layer (evidence: caller list)
-     2. Dependency flowing backwards? Core logic importing UI/framework/IO (evidence: import direction)
-     3. Concept with a single home? Domain behavior redefined in a second place (evidence: existing definition's location)
-     4. New state necessary? Derivable state stored separately (evidence: derivation source, or why none)
-     5. Boundary shape? Cross-module signatures passing "what the caller has" instead of "what the callee needs" (evidence: parameter shape)
-     6. Next change easier or harder? Judge against the next obvious roadmap need
-     7. Deletable as a block? One pluggable block vs tentacles into existing modules (evidence: integration-point count)
-
-3. **`podium:legacy-modernizer`** (dimension: technology-debt) — scans for:
-   - Outdated frameworks/libraries (check against known LTS versions)
-   - Deprecated API usage
-   - Security-relevant version lag (CVE exposure)
-   - Build tooling that needs modernization
-   - Testing gaps (missing coverage for critical paths)
-   - Dependency versions not verified against the registry (npm/PyPI/pub.dev current); unaddressed dep-freshness hook reports
-   - Third-party API usage inconsistent with the version actually installed per manifest/lockfile
+1. **`podium:team-reviewer`** (dimension: `techdebt`, whole-tree audit mode) —
+   applies `${CLAUDE_PLUGIN_ROOT}/protocols/review.md` §L1 Structural questions, §L2 Policy Gate, §L3 Hygiene, and §Periodic audit A1–A3.
+   Every finding has Origin = pre-existing.
+2. **`podium:team-reviewer`** (dimension: `architecture`) — per `${CLAUDE_PLUGIN_ROOT}/protocols/review.md` §Dimensions.
+3. **`podium:legacy-modernizer`** (dimension: technology-debt) — applies `${CLAUDE_PLUGIN_ROOT}/protocols/review.md` §Periodic audit A4 only.
 
 Track progress: "{completed}/3 investigations complete"
 
@@ -67,28 +43,21 @@ Track progress: "{completed}/3 investigations complete"
 For each debt item collected, score:
 - **Impact** (1-5): How much does this slow development / increase bug risk?
 - **Effort** (1-5): How much work to fix?
-- **Urgency** (Low/Medium/High/Critical): Security or compliance implications? A violation of the Policy Gate prohibitions (`${CLAUDE_PLUGIN_ROOT}/protocols/verification.md`) is always Urgency = Critical.
+- **Severity**: per `${CLAUDE_PLUGIN_ROOT}/protocols/review.md §Severity`.
 
-Compute priority score: `Impact / Effort × Urgency_multiplier`
-
-Urgency multipliers: Critical=4, High=2, Medium=1.5, Low=1
+Compute priority score: `Impact / Effort × multiplier(severity)`; multiplier: Critical=4, High=2, Medium=1.5, Low=1.
 
 ## Phase 3: Remediation Planning
 
 Spawn `podium:legacy-modernizer` to create a prioritized remediation plan:
-- Group items by horizon (sprint / quarter / year based on `--horizon`)
-- For each item: specify the exact change needed, files affected, estimated effort
-- Flag dependencies between items (fix X before Y)
-- Identify "quick wins" (Impact ≥ 3, Effort ≤ 2)
+- Group items by horizon (`--horizon`); per item: exact change, files affected, estimated effort
+- Flag dependencies between items (fix X before Y); identify quick wins (Impact ≥ 3, Effort ≤ 2)
 
 ## Phase 4: Documentation
 
 Broadcast to `team-doc-updater` with:
-- Full debt inventory (Phase 1 findings)
-- Priority scores (Phase 2)
-- Remediation roadmap (Phase 3)
-- Request to create/update `TECH_DEBT.md` (or equivalent) in the project root
-- Also update CHANGELOG or architecture docs if relevant
+- Full debt inventory (Phase 1), priority scores (Phase 2), remediation roadmap (Phase 3)
+- Request to create/update `TECH_DEBT.md` per `${CLAUDE_PLUGIN_ROOT}/protocols/review.md §Debt register`; update CHANGELOG or architecture docs if relevant
 
 `team-doc-updater` works in parallel while Phase 5 proceeds.
 
@@ -100,9 +69,9 @@ Present consolidated report:
 ## Tech Debt Report: {target}
 
 ### Summary
-Total items: {N}
-Critical: {N} | High: {N} | Medium: {N} | Low: {N}
+Total items: {N} | Critical: {N} | High: {N} | Medium: {N} | Low: {N}
 Estimated total remediation effort: {N} days
+Hotspot counts (A2): absolute {N} | delta {+/-N} | size {N}
 
 ### Quick Wins (do this sprint)
 1. {item} — Impact: {score}, Effort: {score} — {files}
@@ -114,7 +83,6 @@ Estimated total remediation effort: {N} days
 
 ### Backlog (longer term)
 1. {item} — ...
-
 ### Docs Updated
 {from team-doc-updater}
 ```

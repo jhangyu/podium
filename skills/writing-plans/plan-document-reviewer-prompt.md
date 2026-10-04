@@ -1,13 +1,13 @@
 # Plan Document Reviewer Prompt Template
 
-Use this template when dispatching a plan document reviewer subagent.
+Use this template when spawning a plan document reviewer team member (spawn recipe: `podium:team-spawn`; the member is a worker and may not spawn agents).
 
 **Purpose:** Verify the plan is complete, matches the spec, and has proper task decomposition.
 
 **Dispatch after:** The complete plan is written.
 
 ```
-Subagent (general-purpose):
+Team member (podium:team-reviewer):
   description: "Review plan document"
   prompt: |
     You are a plan document reviewer. Verify this plan is complete and ready for implementation.
@@ -23,6 +23,7 @@ Subagent (general-purpose):
     | Spec Alignment | Plan covers spec requirements, no major scope creep |
     | Task Decomposition | Tasks have clear boundaries, steps are actionable |
     | Buildability | Could an engineer follow this plan without getting stuck? |
+    | Plan gate | `${CLAUDE_PLUGIN_ROOT}/protocols/review.md` §L0 Plan gate, D1–D3 |
 
     ## Calibration
 

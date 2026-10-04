@@ -4,38 +4,7 @@ Detailed preset team configurations with task templates for common workflows.
 
 ## Review Team Preset
 
-**Command**: `/team-spawn review`
-
-### Configuration
-
-- **Team Size**: 3
-- **Agent Type**: `agent-teams:team-reviewer`
-- **Display Mode**: tmux recommended
-
-### Members
-
-| Name                  | Dimension    | Focus Areas                                       |
-| --------------------- | ------------ | ------------------------------------------------- |
-| security-reviewer     | Security     | Input validation, auth, injection, secrets, CVEs  |
-| performance-reviewer  | Performance  | Query efficiency, memory, caching, async patterns |
-| architecture-reviewer | Architecture | SOLID, coupling, patterns, error handling         |
-
-### Task Template
-
-```
-Subject: Review {target} for {dimension} issues
-Description:
-  Dimension: {dimension}
-  Target: {file list or diff}
-  Checklist: {dimension-specific checklist}
-  Output format: Structured findings with file:line, severity, evidence, fix
-```
-
-### Variations
-
-- **Security-focused**: `--reviewers security,testing` (2 members)
-- **Full review**: `--reviewers security,performance,architecture,testing,accessibility` (5 members)
-- **Frontend review**: `--reviewers architecture,testing,accessibility` (3 members)
+See `commands/team-spawn.md` (Presets table, `review` row).
 
 ## Debug Team Preset
 
@@ -44,7 +13,7 @@ Description:
 ### Configuration
 
 - **Team Size**: 3 (default) or N with `--hypotheses N`
-- **Agent Type**: `agent-teams:team-debugger`
+- **Agent Type**: `podium:team-debugger`
 - **Display Mode**: tmux recommended
 
 ### Members
@@ -75,7 +44,7 @@ Description:
 ### Configuration
 
 - **Team Size**: 3 (1 lead + 2 implementers)
-- **Agent Types**: `agent-teams:team-lead` + `agent-teams:team-implementer`
+- **Agent Types**: `podium:team-lead` + `podium:team-implementer`
 - **Display Mode**: tmux recommended
 
 ### Members
@@ -105,7 +74,7 @@ Description:
 ### Configuration
 
 - **Team Size**: 4 (1 lead + 3 implementers)
-- **Agent Types**: `agent-teams:team-lead` + 3x `agent-teams:team-implementer`
+- **Agent Types**: `podium:team-lead` + 3x `podium:team-implementer`
 - **Display Mode**: tmux recommended
 
 ### Members
@@ -186,7 +155,7 @@ Researcher 3 (docs): "Look up the latest NextAuth.js v5 API docs. How does it ha
 ### Configuration
 
 - **Team Size**: 4
-- **Agent Type**: `agent-teams:team-reviewer`
+- **Agent Type**: `podium:team-reviewer`
 - **Display Mode**: tmux recommended
 
 ### Members
@@ -223,7 +192,7 @@ Description:
 ### Configuration
 
 - **Team Size**: 4 (1 lead + 2 implementers + 1 reviewer)
-- **Agent Types**: `agent-teams:team-lead` + 2x `agent-teams:team-implementer` + `agent-teams:team-reviewer`
+- **Agent Types**: `podium:team-lead` + 2x `podium:team-implementer` + `podium:team-reviewer`
 - **Display Mode**: tmux recommended
 
 ### Members

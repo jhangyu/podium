@@ -9,7 +9,7 @@
     {
       "name": "podium",
       "description": "Unified pipeline plugin: methodology gates (brainstorming → writing-plans → TDD/systematic-debugging → verification) fused with agent-team orchestration (spawn/fable/roster) over Claude Code native team primitives. Single-source mechanism protocols.",
-      "version": "1.0.9",
+      "version": "1.1.0",
       "source": "./",
       "author": {
         "name": "jhangyu",

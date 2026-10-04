@@ -91,6 +91,10 @@ After all implementation streams have individually passed their tests:
 - Re-run integration suite after fixes.
 - Repeat until PASS.
 
+After PASS: Spawn ONE `podium:team-reviewer` per `${CLAUDE_PLUGIN_ROOT}/protocols/rounds-and-review.md`
+(review cadence and the 2-cycle bound; dimensions `techdebt, architecture` plus any the diff needs) scoped to the combined diff.
+Route findings back to the responsible implementer, then re-review.
+
 ## Phase 7: Doc Update
 
 After all tests pass (per-stream and integration):

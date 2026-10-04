@@ -7,7 +7,7 @@ Referenced by: `podium:team-spawn`, `podium:team-fable`.
 Every slot — specialist and scaffolding alike — is matched against the roster first, then walked down the tiers; take the first tier with a capability match:
 
 1. **Roster specialists** (`podium:team-roster`, 115 roles): Read `${CLAUDE_PLUGIN_ROOT}/skills/team-roster/references/details.md` and match roles against the task. Spawn as `general-purpose`; the task prompt MUST begin: `Read <absolute path to the roster file> and fully adopt that agent definition (role, approach, constraints). Then execute the following task: ...`. Use the model from the roster file's frontmatter.
-2. **Registered agents** (`${CLAUDE_PLUGIN_ROOT}/agents/`, subagent_type prefix `podium:`): team-lead, team-reviewer, team-debugger, team-implementer, team-test-runner, team-doc-updater, architect-reviewer, code-reviewer, legacy-modernizer, performance-engineer, c-pro, cpp-pro, golang-pro, rust-pro.
+2. **Registered agents** (`${CLAUDE_PLUGIN_ROOT}/agents/`, subagent_type prefix `podium:`): team-lead, team-reviewer, team-debugger, team-implementer, team-test-runner, team-doc-updater, legacy-modernizer, performance-engineer, c-pro, cpp-pro, golang-pro, rust-pro.
 3. **`podium:team-implementer`** — generic builder, last resort only when tiers 1–2 have no match.
 
 Capability signals come from the task description (`$ARGUMENTS` + conversation context) corroborated by repo facts: manifest files (`package.json`, `pyproject.toml`, `go.mod`, `Cargo.toml`), migrations directories, `Dockerfile`, test commands. Do not assign a specialist the repo facts contradict.

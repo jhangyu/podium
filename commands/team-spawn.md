@@ -29,8 +29,8 @@ Spawn all members in ONE message. If a `TeamCreate` tool exists in this build, c
 | `security` | one reviewer per attack-surface dimension present (OWASP, authn/authz, deps, secrets/config); prefer roster security roles over generic team-reviewer |
 | `migration` | one slot per independent migration stream |
 | `refactor` | `podium:legacy-modernizer` when legacy patterns are in scope + one slot per refactor stream |
-| `techdebt` | `architect-reviewer` + `code-reviewer`; `legacy-modernizer` when modernization is applied |
-| `performance` | `performance-engineer`; `architect-reviewer` if architectural concerns surface; language specialist per `--lang`/repo; `team-test-runner` runs benchmarks |
+| `techdebt` | `team-reviewer` (dimensions `techdebt, architecture`); `legacy-modernizer` when modernization is applied |
+| `performance` | `performance-engineer`; `team-reviewer` (dimension `architecture`) if architectural concerns surface; language specialist per `--lang`/repo; `team-test-runner` runs benchmarks |
 | `systems` | `c-pro`/`cpp-pro`/`golang-pro`/`rust-pro` per `--lang`, else detect from manifests, else AskUserQuestion |
 
 `custom`: run member selection, present each slot (role, source tier agent/roster/fallback, model, one-line reason) via AskUserQuestion to confirm/adjust, ask for a name if `--name` is absent, then spawn the confirmed list.

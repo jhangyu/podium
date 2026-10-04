@@ -1,11 +1,12 @@
 ---
-description: "Parallel code refactoring using code-reviewer analysis + legacy-modernizer planning + implementer execution with test verification"
+description: "Parallel code refactoring using team-reviewer analysis + legacy-modernizer planning + implementer execution with test verification"
 argument-hint: "<target path or description> [--scope files|module|project] [--strategy safe|aggressive] [--lang c|cpp|go|rust]"
 ---
 
 # Team Refactor
 
-Orchestrate a parallel refactoring workflow: a code-reviewer identifies issues, a legacy-modernizer creates the remediation plan, implementers execute in parallel with file ownership, and a test-runner verifies nothing broke.
+Orchestrate a parallel refactoring workflow: a team-reviewer identifies issues, a legacy-modernizer creates the remediation plan,
+implementers execute in parallel with file ownership, and a test-runner verifies nothing broke.
 
 ## Pre-flight Checks
 
@@ -20,16 +21,8 @@ Orchestrate a parallel refactoring workflow: a code-reviewer identifies issues, 
 
 Team label: generate `refactor-{timestamp}` now; it is the `team_name` for every Agent call from here on (all phases). LEGACY builds: run TeamCreate with this label now, before the first spawn.
 
-1. Spawn `podium:team-reviewer` with dimension `architecture` to scan the target for:
-   - Code smells (long methods, duplication, god classes, magic numbers)
-   - SOLID violations
-   - Dead code and unused exports
-   - Naming inconsistencies
-2. Spawn `podium:code-reviewer` in parallel to scan for:
-   - Performance anti-patterns
-   - Error handling gaps
-   - Missing type safety
-3. Collect findings. Present summary to user:
+1. Spawn ONE `podium:team-reviewer` with dimensions `architecture, techdebt` to scan the target per `${CLAUDE_PLUGIN_ROOT}/protocols/review.md` §Dimensions.
+2. Collect findings. Present summary to user:
    ```
    ## Refactor Analysis: {target}
    Found {N} issues: {critical} critical, {high} high, {medium} medium
@@ -41,7 +34,8 @@ Team label: generate `refactor-{timestamp}` now; it is the `team_name` for every
    - The full findings report from Phase 1
    - The `--strategy` flag
    - A request to produce a prioritized refactoring plan with estimated effort per item
-2. If `--lang` is specified (or auto-detected as c/cpp/go/rust), ALSO spawn the corresponding `podium:{lang}-pro` in parallel to review language-specific patterns and add language-idiomatic suggestions.
+2. If `--lang` is specified (or auto-detected as c/cpp/go/rust),
+   ALSO spawn the corresponding `podium:{lang}-pro` in parallel to review language-specific patterns and add language-idiomatic suggestions.
 3. Merge plans. Present to user and wait for approval:
    ```
    ## Refactoring Plan
@@ -90,6 +84,9 @@ Follow the language policy in the reporting protocol: read ${CLAUDE_PLUGIN_ROOT}
 1. Signal `team-test-runner` to run the full test suite (not just per-stream tests)
 2. If any tests fail: assign targeted fixes to the responsible implementer
 3. Wait for all tests to pass
+4. Spawn ONE `podium:team-reviewer` per `${CLAUDE_PLUGIN_ROOT}/protocols/rounds-and-review.md`
+   (review cadence and the 2-cycle bound; dimensions `techdebt, architecture` plus any the diff needs) scoped to the combined diff.
+   Route findings back to the responsible implementer, then re-review.
 
 ## Phase 6: Report and Cleanup
 

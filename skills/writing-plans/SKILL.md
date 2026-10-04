@@ -80,6 +80,10 @@ If Stage 2 reveals a skeleton mistake (missing parameter, wrong type), fix the s
 
 **Tech Stack:** [Key technologies/libraries]
 
+**Decisions (hard-to-reverse only):** [alternatives ≥2 · drivers · drawbacks]
+
+Plan gate: `${CLAUDE_PLUGIN_ROOT}/protocols/review.md` §L0 Plan gate.
+
 ## Global Constraints
 
 [The spec's project-wide requirements — version floors, dependency limits,
@@ -116,6 +120,7 @@ Edge cases and error-path behavior spelled out.]
 **Constraints:**
 - [Hard requirements: algorithms mandated, dependencies allowed/forbidden,
   performance bounds, naming rules — one line each]
+- [Layer + allowed deps (new modules)]
 
 **Acceptance criteria:**
 - [ ] [Mechanically checkable condition — a named test that must exist and

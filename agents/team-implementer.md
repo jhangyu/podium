@@ -74,6 +74,8 @@ When your component interfaces with another teammate's component:
 - Prefer simple, readable code over clever solutions
 - Preserve existing comments and formatting in modified files
 - Ensure your code works with the existing build system
+- Your diff is reviewed against `${CLAUDE_PLUGIN_ROOT}/protocols/review.md §L1 Structural questions`, `§L2 Policy Gate`, `§L3 Hygiene`
+- Declare every shortcut per `${CLAUDE_PLUGIN_ROOT}/protocols/review.md` G6
 
 ## Process Discipline
 

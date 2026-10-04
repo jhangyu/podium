@@ -32,8 +32,6 @@ If the name is missing or not in the index, print the available commands table b
 | smart-debug | ${CLAUDE_PLUGIN_ROOT}/skills/workflow-extras-router/references/smart-debug.md | error-diagnostics | AI-assisted debugging from error to root cause |
 | debug-trace | ${CLAUDE_PLUGIN_ROOT}/skills/workflow-extras-router/references/debug-trace.md | distributed-debugging | Trace distributed system requests to find bugs |
 | smart-fix | ${CLAUDE_PLUGIN_ROOT}/skills/workflow-extras-router/references/smart-fix.md | incident-response | Multi-agent issue resolution: diagnose, fix, verify |
-| full-review | ${CLAUDE_PLUGIN_ROOT}/skills/workflow-extras-router/references/full-review.md | comprehensive-review | Multi-phase orchestrated comprehensive code review |
-| tech-debt | ${CLAUDE_PLUGIN_ROOT}/skills/workflow-extras-router/references/tech-debt.md | codebase-cleanup | Inventory and prioritize technical debt |
 | deps-audit | ${CLAUDE_PLUGIN_ROOT}/skills/workflow-extras-router/references/deps-audit.md | codebase-cleanup | Audit dependencies for vulnerabilities/staleness |
 | performance-optimization | ${CLAUDE_PLUGIN_ROOT}/skills/workflow-extras-router/references/performance-optimization.md | application-performance | End-to-end app performance profiling and optimization |
 | doc-generate | ${CLAUDE_PLUGIN_ROOT}/skills/workflow-extras-router/references/doc-generate.md | code-documentation | Auto-generate API/architecture/code/user docs from codebase |
