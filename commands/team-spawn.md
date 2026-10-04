@@ -5,117 +5,47 @@ argument-hint: "<preset|custom> [--name team-name] [--members N] [--delegate] [-
 
 # team-spawn
 
-Create & spawn a coordinated agent team. Presets define the team **shape**; the actual members and their count are derived from the task content, not fixed lists.
+Spawn a coordinated agent team. A preset fixes the team **shape**; members and counts are derived from the task. `P` = `${CLAUDE_PLUGIN_ROOT}/protocols/`.
 
-## Pre-flight Checks
+## Arguments
+- 1st positional: preset or `custom`. `--name`: team label (default `<preset>-team`). `--members N`: overrides derived specialist count (scaffolding conditions still apply). `--delegate`: add owned files, blockedBy, and acceptance-criteria placeholders to each task prompt. `--lang c|cpp|go|rust`: language-specialist hint.
+- Do not pre-check `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`; on a teams-disabled error, halt and tell the user to set it to `1`.
 
-1. Do NOT pre-check the `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` env var. If a spawn or TeamCreate fails with a teams-disabled error, halt and instruct the user to set `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`.
-2. Parse arguments:
-   - First positional arg: preset name or `custom`
-   - `--name <team-name>`: override default team name
-   - `--members N`: explicit member-count override (skips count derivation)
-   - `--delegate`: pass task delegation hints to agents
-   - `--lang c|cpp|go|rust`: language specialization hint (strong signal for tier-1 language specialists)
+## Spawn recipe (first call must succeed)
+Every `Agent` call carries ALL of: `name` (session-unique, `{role}-{model}`; suffix `-2` if taken), `team_name` (the team label — required even though IMPLICIT mode ignores it; gate hooks deny calls without it), `subagent_type`, explicit `model`, and a prompt that contains:
+- `ROLE: WORKER — you may NOT spawn agents, teams, or workflows. If the task needs delegation, STOP and report back.`
+- `Report via SendMessage to team-lead; if unreachable, send to main.`
 
-## Member Selection
+Spawn all members in ONE message. If a `TeamCreate` tool exists in this build, create the team with it first (`displayMode: "tmux"`). Details: `P/team-mode.md`.
 
-Every specialist slot (which role, how many, and the conditional scaffolding roles) is derived from the task, not from a fixed list. Follow the member selection protocol: read ${CLAUDE_PLUGIN_ROOT}/protocols/member-selection.md and apply it. `--members N` overrides the derived specialist-slot count; scaffolding conditions still apply.
+## Presets (slots filled via `P/member-selection.md`; scaffolding per its conditions)
+| Preset | Slots |
+|---|---|
+| `review` | one `podium:team-reviewer` per dimension the diff touches (security, performance, architecture, correctness…) |
+| `debug` | one `podium:team-debugger` per competing hypothesis (typically 2–4); doc-updater writes the runbook |
+| `feature` | one slot per parallel feature stream |
+| `fullstack` | one slot per layer actually touched (frontend/backend/data/tests) |
+| `research` | one `general-purpose` (roster-adopted where a role matches, e.g. search-specialist) per independent area |
+| `security` | one reviewer per attack-surface dimension present (OWASP, authn/authz, deps, secrets/config); prefer roster security roles over generic team-reviewer |
+| `migration` | one slot per independent migration stream |
+| `refactor` | `podium:legacy-modernizer` when legacy patterns are in scope + one slot per refactor stream |
+| `techdebt` | `architect-reviewer` + `code-reviewer`; `legacy-modernizer` when modernization is applied |
+| `performance` | `performance-engineer`; `architect-reviewer` if architectural concerns surface; language specialist per `--lang`/repo; `team-test-runner` runs benchmarks |
+| `systems` | `c-pro`/`cpp-pro`/`golang-pro`/`rust-pro` per `--lang`, else detect from manifests, else AskUserQuestion |
 
-### Baton Rotation (mandatory for every worker)
+`custom`: run member selection, present each slot (role, source tier agent/roster/fallback, model, one-line reason) via AskUserQuestion to confirm/adjust, ask for a name if `--name` is absent, then spawn the confirmed list.
 
-Members rotate on a task cap and hand off via a baton doc. Follow the reporting protocol: read ${CLAUDE_PLUGIN_ROOT}/protocols/reporting.md and apply it.
-
-## Preset Configurations
-
-Each preset defines its shape: which scaffolding applies and how specialist slots are derived. All slots are filled via Member Selection above.
-
-### `review`
-Default name: `review-team`. One `podium:team-reviewer` per review dimension relevant to the diff (e.g. security, performance, architecture, correctness — derive from what the diff touches). `team-doc-updater` per scaffolding condition.
-
-### `debug`
-Default name: `debug-team`. One `podium:team-debugger` per competing hypothesis derived from the symptom (typically 2–4). `team-doc-updater` documents the runbook.
-
-### `feature`
-Default name: `feature-team`. One specialist slot per parallel feature stream. Scaffolding per conditions.
-
-### `fullstack`
-Default name: `fullstack-team`. One specialist slot per layer the task actually touches (frontend, backend, data, tests) — omit layers the task doesn't touch. Scaffolding per conditions.
-
-### `research`
-Default name: `research-team`. One `general-purpose` (roster-adopted where a role matches, e.g. search-specialist) per independent research area.
-
-### `security`
-Default name: `security-team`. One reviewer slot per attack-surface dimension present in the codebase (e.g. OWASP top 10, auth & access control, dependency vulnerabilities, secrets & config exposure) — prefer roster security roles (security-auditor, threat-modeling-expert, backend/frontend/mobile-security-coder) over generic team-reviewer when they match.
-
-### `migration`
-Default name: `migration-team`. One specialist slot per independent migration stream; correctness is verified per the round review cadence. Scaffolding per conditions.
-
-### `refactor`
-Default name: `refactor-team`. `podium:legacy-modernizer` when legacy patterns are in scope; one specialist slot per refactor stream; correctness is verified per the round review cadence. Scaffolding per conditions.
-
-### `techdebt`
-Default name: `techdebt-team`. `architect-reviewer` (structural debt) + `code-reviewer` (code-level debt); `legacy-modernizer` when modernization is applied. Scaffolding per conditions.
-
-### `performance`
-Default name: `performance-team`. `performance-engineer` always; `architect-reviewer` when architectural concerns surface; language specialist per `--lang` or detected repo language. `team-test-runner` runs benchmarks.
-
-### `systems`
-Default name: `systems-team`. Language specialist per `--lang` (`c-pro`/`cpp-pro`/`golang-pro`/`rust-pro`); if `--lang` absent, detect from repo manifests, and only if still ambiguous use AskUserQuestion. Scaffolding per conditions.
-
-## Custom Composition
-
-If the first argument is `custom`:
-1. Run Member Selection to derive a proposed team: for each slot, the chosen role, its source tier (agent / roster / fallback), model, and a one-line reason.
-2. Present the proposal via AskUserQuestion for the user to confirm or adjust (swap roles, change counts).
-3. Ask for team name if `--name` was not provided.
-4. Compose the final member list from the confirmed selections.
-
-## Team Protocol Preamble (mandatory for every roster-adopted member)
-
-Roster definitions are written for solo work and carry no team protocol, so every roster-adopted member's task prompt needs a preamble prepended after the adopt instruction. Follow the member selection protocol: read ${CLAUDE_PLUGIN_ROOT}/protocols/member-selection.md and apply it.
-
-## Member Naming and Reporting Discipline
-
-Every spawned member's `name` carries its role and its model as a suffix, and every member task prompt embeds the reporting-discipline block (end-of-turn delivery, artifact-first verification, chain of command, signoff). Follow the reporting protocol: read ${CLAUDE_PLUGIN_ROOT}/protocols/reporting.md and apply it.
-
-## Review Cadence and Round Discipline
-
-Review happens once per round, with a single round reviewer scoped to the round's combined diff; the same protocol defines the orchestrator's duties during a round, including the **stall watchdog** the main agent runs over idle notifications. Follow the rounds and review protocol: read ${CLAUDE_PLUGIN_ROOT}/protocols/rounds-and-review.md and apply it. Presets whose deliverable IS review are exempt from the round reviewer, as that protocol states.
-
-## File Ownership
-
-Follow the file ownership protocol: read ${CLAUDE_PLUGIN_ROOT}/protocols/file-ownership.md and apply it.
-
-## Verification
-
-Follow the verification protocol: read ${CLAUDE_PLUGIN_ROOT}/protocols/verification.md and apply it.
-
-## Shutdown
-
-When the team's work is done, follow the shutdown protocol: read ${CLAUDE_PLUGIN_ROOT}/protocols/shutdown.md and apply it.
-
-## Language Policy
-
-Follow the language policy in the reporting protocol: read ${CLAUDE_PLUGIN_ROOT}/protocols/reporting.md and apply it.
-
-## Team Creation
-
-1. Detect mode and create the team: follow `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md` (LEGACY: `TeamCreate` with `displayMode: "tmux"`; IMPLICIT: no `TeamCreate` — spawning members IS team creation).
-2. Spawn all members in ONE message: one `Agent` call per member, each with `name` (session-unique), `team_name` (the team name — required in BOTH modes; delegation gates reject Agent calls without it, even though the harness ignores it in IMPLICIT mode), `subagent_type`, `model`, and the task prompt.
-3. Call TaskCreate once per member to assign their initial role context and any relevant instructions. All task prompts MUST be written in English, MUST embed the reporting-discipline block from the reporting protocol, and for roster-adopted members MUST include the full Team Protocol Preamble from the member selection protocol.
-4. If `--delegate` is set, include delegation hints in each task prompt: owned files, blockedBy relationships, and acceptance criteria placeholders.
+## Steps
+1. Select members per `P/member-selection.md`.
+2. Spawn per the recipe above.
+3. `TaskCreate` one task per member (English). Each prompt embeds the reporting-discipline block (`P/reporting.md`); roster-adopted members also get the Team Protocol Preamble (`P/member-selection.md`).
+4. Run the team under `P/reporting.md` (naming, baton rotation, signoff, language), `P/rounds-and-review.md` (one round reviewer per round, stall watchdog; review-deliverable presets skip the round reviewer), `P/file-ownership.md`, `P/verification.md`; finish with `P/shutdown.md`.
 
 ## Output
-
-Present a formatted summary after spawn completes:
-
 ```
 Team: {team-name}
 Preset: {preset or "custom"}
-
 Members:
   [1] {name} — {role/focus} — source: {agent|roster:<role>|fallback} — model: {model}
-  [2] ...
-
 Status: All agents spawned. Tasks assigned.
 ```

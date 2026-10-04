@@ -36,7 +36,7 @@ Follow the language policy in the reporting protocol: read ${CLAUDE_PLUGIN_ROOT}
 
 ## Phase 3: Team Spawn
 
-Team creation: follow `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md` (LEGACY: `TeamCreate` with `displayMode: "tmux"`; IMPLICIT: skip). Derive the team name from the feature description or `--branch` value.
+Team creation: follow `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md` (LEGACY: `TeamCreate` with `displayMode: "tmux"`; IMPLICIT: skip creation). Spawn recipe for EVERY Agent call: `name` (session-unique), `team_name` (team label), `subagent_type`, explicit `model`; the prompt includes the `ROLE: WORKER` no-spawn line and "Report via SendMessage to `team-lead`; if unreachable, send to `main`." Gate hooks deny any call without `team_name`, even in IMPLICIT mode. Derive the team name from the feature description or `--branch` value.
 
 Spawn the following agents (all using subagent_type prefix `podium:`):
 - ONE `podium:team-lead` — coordinates streams, owns integration files

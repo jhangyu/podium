@@ -2,6 +2,10 @@ Team mode detection — behavior on legacy Claude Code (explicit teams) vs >= 2.
 
 Referenced by: every command that creates or shuts down a team, `protocols/shutdown.md`, `protocols/reporting.md`.
 
+## Spawn recipe (both modes — the first call must succeed)
+
+Every `Agent` call carries ALL of: `name` (session-unique), `team_name` (the team label), `subagent_type`, explicit `model`; the prompt contains the `ROLE: WORKER` no-spawn line and "Report via SendMessage to `team-lead`; if unreachable, send to `main`." Never send a name-only Agent call: gate hooks deny any call without a non-empty `team_name`, even in IMPLICIT mode where the harness ignores it.
+
 ## Detect the mode (once, before any team creation)
 
 ToolSearch query `select:TeamCreate`.
@@ -14,7 +18,7 @@ Both modes require `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`, but do not pre-chec
 ## IMPLICIT mode rules
 
 1. **No TeamCreate / TeamDelete.** One team per session; no second named team. Team names in commands (`debug-{timestamp}` etc.) are labels only (output, worktree/branch names, docs).
-2. **Spawn** with `Agent(name=<unique role name>, team_name=<team label>, subagent_type, model, prompt)`. The harness ignores `team_name`, but delegation-gate hooks reject Agent calls without it — always include it.
+2. **Spawn** per the recipe above.
 3. **Unique names are mandatory.** A duplicate `name` silently creates a second agent. Check each name against members already spawned this session; suffix (`-2`) if taken. Address members by exact name.
 4. **Tasks**: `TaskCreate`/`TaskUpdate`/`TaskList` still work (may be deferred — load via ToolSearch `select:TaskCreate,TaskUpdate,TaskList`). `TaskUpdate owner=<name>` auto-delivers a task_assignment message.
 5. **Reply address**: members report via `SendMessage`; the lead's address is `team-lead` or `main` depending on harness (headless `-p` uses `main`; interactive unverified). Every member prompt must say: "Report via SendMessage to `team-lead`; if unreachable ('No agent named ... is reachable'), send to `main`." Members with a squad lead/owner report to that member.

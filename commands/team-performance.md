@@ -18,6 +18,8 @@ Orchestrate a performance analysis: a performance-engineer profiles the system, 
 
 ## Phase 1: Benchmark Baseline (if --profile)
 
+Team label: generate `perf-{timestamp}` now; it is the `team_name` for every Agent call from here on (all phases).
+
 If `--profile` flag is set:
 1. Spawn `podium:team-test-runner` immediately
 2. Signal it to run existing benchmark/profile commands (detect from package.json, Makefile, Cargo.toml, go test -bench, etc.)
@@ -73,7 +75,7 @@ Follow the language policy in the reporting protocol: read ${CLAUDE_PLUGIN_ROOT}
 
 ## Phase 4: Implementation (if user approves)
 
-1. Team creation: follow `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md` (LEGACY: `TeamCreate` with `displayMode: "tmux"`; IMPLICIT: skip); team name/label `perf-{timestamp}`
+1. Team creation: follow `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md` (LEGACY: `TeamCreate` with `displayMode: "tmux"`; IMPLICIT: skip creation). Spawn recipe for EVERY Agent call in every phase, including the Phase 1-2 investigators: `name` (session-unique), `team_name` (team label), `subagent_type`, explicit `model`; the prompt includes the `ROLE: WORKER` no-spawn line and "Report via SendMessage to `team-lead`; if unreachable, send to `main`." Gate hooks deny any call without `team_name`, even in IMPLICIT mode; reuse the Phase 1 team label
 2. Spawn `podium:team-lead` to coordinate
 3. Spawn `podium:team-implementer` agents for each approved optimization stream
 4. Keep `podium:team-test-runner` active to run benchmarks after each change

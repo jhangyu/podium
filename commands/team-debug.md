@@ -47,7 +47,7 @@ Follow the language policy in the reporting protocol: read ${CLAUDE_PLUGIN_ROOT}
 
 Generate a team name: `debug-{timestamp}`.
 
-Team creation: follow `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md` (LEGACY: `TeamCreate` with `displayMode: "tmux"`; IMPLICIT: skip). Then spawn agents:
+Team creation: follow `${CLAUDE_PLUGIN_ROOT}/protocols/team-mode.md` (LEGACY: `TeamCreate` with `displayMode: "tmux"`; IMPLICIT: skip creation). Spawn recipe for EVERY Agent call: `name` (session-unique), `team_name` (team label), `subagent_type`, explicit `model`; the prompt includes the `ROLE: WORKER` no-spawn line and "Report via SendMessage to `team-lead`; if unreachable, send to `main`." Gate hooks deny any call without `team_name`, even in IMPLICIT mode. Then spawn agents:
 - ONE `podium:team-debugger` per hypothesis (assign one hypothesis per agent)
 - ONE `podium:team-doc-updater` — will document the runbook
 
