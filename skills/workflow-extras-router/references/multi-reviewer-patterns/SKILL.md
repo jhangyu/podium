@@ -27,6 +27,9 @@ Patterns for coordinating parallel code reviews across multiple quality dimensio
 | **Architecture**  | SOLID, coupling, patterns               | For structural changes or new modules       |
 | **Testing**       | Coverage, quality, edge cases           | When adding new functionality               |
 | **Accessibility** | WCAG, ARIA, keyboard nav                | For UI/frontend changes                     |
+| **Techdebt**      | Structural debt: layering, dependency direction, concept homes | Always — part of the default set |
+
+Per-dimension review criteria live in `agents/team-reviewer.md` (the reviewer agent definition); this table only guides allocation.
 
 ### Recommended Combinations
 

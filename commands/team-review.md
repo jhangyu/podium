@@ -1,6 +1,6 @@
 ---
 description: "Launch a multi-reviewer parallel code review with specialized review dimensions and automatic documentation of findings"
-argument-hint: "<target> [--reviewers security,performance,architecture,testing,accessibility] [--base-branch main] [--doc]"
+argument-hint: "<target> [--reviewers security,performance,architecture,testing,accessibility,techdebt] [--base-branch main] [--doc]"
 ---
 
 # team-review
@@ -35,8 +35,9 @@ Default dimensions and agent mapping:
 - `architecture` → `podium:team-reviewer` with architecture focus
 - `testing` → `podium:team-reviewer` with testing focus
 - `accessibility` → `podium:team-reviewer` with accessibility focus
+- `techdebt` → `podium:team-reviewer` with structural technical-debt focus
 
-If `--reviewers` is specified, spawn only the listed dimensions.
+All six dimensions above are the DEFAULT set — `techdebt` runs whenever `--reviewers` is omitted. If `--reviewers` is specified, spawn only the listed dimensions (the only way to exclude techdebt).
 
 Special dimension note: if `refactor` is included in `--reviewers`, spawn `podium:architect-reviewer` instead of `team-reviewer` for that slot.
 
@@ -71,6 +72,8 @@ Organize findings into severity buckets:
 Within each bucket, sort by file path then line number.
 
 Identify cross-dimension findings (same issue caught by multiple reviewers) and mark them with a `[multi]` tag.
+
+Cross-layer adjudication: when a structural (L1) techdebt finding exists, mark policy/hygiene (L2/L3) findings in the same scope as `deferred` in the consolidated report — structure first, polish later.
 
 ## Phase 5: Documentation
 

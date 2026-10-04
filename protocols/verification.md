@@ -23,9 +23,19 @@ When dispatched to verify work another agent has already reported as complete, t
 
 - **Adversarial framing**: assume the work is broken until evidence says otherwise. Your job is to actively REFUTE the claim — not confirm it.
 - **Self-produced evidence**: reproduce test runs and exercise the changed flow yourself; probe the edge cases the implementer plausibly missed. The implementer's or test-runner's own output is a claim, not evidence.
-- **Negative-space question** (mandatory): "what existing behavior does this diff remove, weaken, or stop handling, and who (which caller, flow, or user) depends on it?" Read the diff for what it *doesn't* handle, not just what it does.
+- **Negative-space question** (mandatory): "what existing behavior does this diff remove, weaken, or stop handling, and who (which caller, flow, or user) depends on it?" Read the diff for what it *doesn't* handle, not just what it does — including expired flags, shims, and TODOs left behind.
 - **Verdict format**: **CONFIRMED** — every claim checked against evidence you produced yourself; list what you ran and observed. **REFUTED** — one concrete, reproducible counterexample: exact inputs/state, expected vs actual, where it breaks. One reproducible counterexample beats five suspicions.
 - **Independence**: never fix anything you find — not even a one-line fix, even when it would be faster than reporting it. Fixes route back to the originating worker or squad lead. Independence is the reviewer's entire value.
+
+## Policy Gate
+
+Five project-policy prohibitions, each a mechanical pass/fail check. Any violation = **Critical** severity finding.
+
+1. **Third-party API fidelity**: every third-party API call matches the version actually installed per the manifest/lockfile (implementer must have verified against that version's docs via context7); the reviewer checks version/usage consistency. Third-party APIs written from training memory = violation.
+2. **Verified dependency versions**: dependency versions in new or edited manifests come from registry verification (npm/PyPI/pub.dev current); dep-freshness hook reports are addressed, never ignored.
+3. **No platform forks**: no per-platform forks or exceptions in implementations — unless unreachable; an unreachability claim requires proof and a user decision.
+4. **No forward-compatibility baggage** (projects are pre-release): replaced modules are deleted entirely with their tests and docs, zero residue; similar functionality converges into one generic module, no parallel paths.
+5. **File-operation scripts** (test/build/CI...): cross-platform Python only, one script per functional goal, runnable with zero arguments by default. No bat/shell/powershell, no splitting into multiple files, no per-run argument dependence.
 
 ## Findings Format
 
@@ -36,3 +46,4 @@ Reviewers emit findings in the structured template owned by the reviewer agent d
 - Progress claims are audited against actual tool output before being reported — claims not backed by tool evidence are invalid.
 - Task status is not proof the work is in the tree; verify with `git show <hash> --stat` or a grep for a content marker.
 - Post-merge verification on the target branch is an independent gate, not a formality (see `${CLAUDE_PLUGIN_ROOT}/protocols/worktree-lifecycle.md`).
+- Doc claims are traceable: every "mechanism exists" claim traces to an enforcer (hook/CI/code); mechanism deliverables include a one-line liveness command proving one real run.

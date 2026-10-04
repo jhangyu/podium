@@ -28,7 +28,13 @@ Spawn 3 parallel investigators:
    - Cyclomatic complexity hotspots (>10)
    - Long methods (>50 lines), God classes (>500 lines)
    - Dead code, unused exports, obsolete comments
-   - Magic numbers and hardcoded configuration
+   - Magic numbers and hardcoded configuration (absolute paths, machine-specific values)
+   - Negative space: orphan imports, stale tests testing removed behavior, expired flags/shims/TODOs
+   - Single source of truth: constants/paths/schemas defined in two places; hand-maintained lists derivable from a declaration source
+   - Error paths: empty catches, errors swallowed into default returns
+   - Tests that cannot fail when the logic breaks; tests changed to fit the implementation
+   - Interface evolution smells: third optional parameter, boolean flags that fork behavior
+   - Doc claims with no enforcer (hook/CI/code) behind them
 
 2. **`podium:architect-reviewer`** (dimension: architecture-debt) — scans for:
    - Circular dependencies and tight coupling
@@ -36,6 +42,14 @@ Spawn 3 parallel investigators:
    - Missing abstractions / leaky abstractions
    - Outdated patterns (callbacks → promises, etc.)
    - Monolithic components that should be split
+   - Plus the seven structural questions (answer each with evidence; an unanswerable question is a finding):
+     1. Right layer? Same fix in 2+ places = wrong layer (evidence: caller list)
+     2. Dependency flowing backwards? Core logic importing UI/framework/IO (evidence: import direction)
+     3. Concept with a single home? Domain behavior redefined in a second place (evidence: existing definition's location)
+     4. New state necessary? Derivable state stored separately (evidence: derivation source, or why none)
+     5. Boundary shape? Cross-module signatures passing "what the caller has" instead of "what the callee needs" (evidence: parameter shape)
+     6. Next change easier or harder? Judge against the next obvious roadmap need
+     7. Deletable as a block? One pluggable block vs tentacles into existing modules (evidence: integration-point count)
 
 3. **`podium:legacy-modernizer`** (dimension: technology-debt) — scans for:
    - Outdated frameworks/libraries (check against known LTS versions)
@@ -43,6 +57,8 @@ Spawn 3 parallel investigators:
    - Security-relevant version lag (CVE exposure)
    - Build tooling that needs modernization
    - Testing gaps (missing coverage for critical paths)
+   - Dependency versions not verified against the registry (npm/PyPI/pub.dev current); unaddressed dep-freshness hook reports
+   - Third-party API usage inconsistent with the version actually installed per manifest/lockfile
 
 Track progress: "{completed}/3 investigations complete"
 
@@ -51,7 +67,7 @@ Track progress: "{completed}/3 investigations complete"
 For each debt item collected, score:
 - **Impact** (1-5): How much does this slow development / increase bug risk?
 - **Effort** (1-5): How much work to fix?
-- **Urgency** (Low/Medium/High/Critical): Security or compliance implications?
+- **Urgency** (Low/Medium/High/Critical): Security or compliance implications? A violation of the Policy Gate prohibitions (`${CLAUDE_PLUGIN_ROOT}/protocols/verification.md`) is always Urgency = Critical.
 
 Compute priority score: `Impact / Effort × Urgency_multiplier`
 

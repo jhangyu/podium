@@ -21,7 +21,7 @@ Spawn all members in ONE message. If a `TeamCreate` tool exists in this build, c
 ## Presets (slots filled via `P/member-selection.md`; scaffolding per its conditions)
 | Preset | Slots |
 |---|---|
-| `review` | one `podium:team-reviewer` per dimension the diff touches (security, performance, architecture, correctness…) |
+| `review` | one `podium:team-reviewer` per dimension (default six: security, performance, architecture, testing, accessibility, techdebt) |
 | `debug` | one `podium:team-debugger` per competing hypothesis (typically 2–4); doc-updater writes the runbook |
 | `feature` | one slot per parallel feature stream |
 | `fullstack` | one slot per layer actually touched (frontend/backend/data/tests) |

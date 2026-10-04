@@ -14,7 +14,7 @@ A **round** = one batch of tasks dispatched together (in squad orchestration, on
 
 ## Review Cadence
 
-Review happens once per round, not per member or per deliverable. When every task in the round is complete (with test-runner PASS evidence where a test-runner exists), spawn a single `podium:team-reviewer` named `round-{N}-reviewer-{model}` scoped to the round's combined diff — across all squad worktrees when squads are in use. Its verdict goes to the main agent (or team-lead / orchestrator) and to no one else.
+Review happens once per round, not per member or per deliverable. The `techdebt` and `architecture` dimensions are mandatory picks every round — never skipped because the diff is "small" (structural debt mostly comes from small diffs). When every task in the round is complete (with test-runner PASS evidence where a test-runner exists), spawn a single `podium:team-reviewer` named `round-{N}-reviewer-{model}` scoped to the round's combined diff — across all squad worktrees when squads are in use. Its verdict goes to the main agent (or team-lead / orchestrator) and to no one else.
 
 - In squad orchestration the round reviewer is `opus` (`round-{N}-reviewer-opus`) — the model floor is mandatory, not a default.
 - The reviewer works **read-only in the existing worktrees** — no new worktree, no file ownership list.
