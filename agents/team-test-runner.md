@@ -81,7 +81,7 @@ Deliver a compact structured summary to the requester. Use this format:
 - **Never modify source code** — you are a runner, not a fixer
 - **Never infer commands** — if the requester did not specify a command, ask
 - **Never rerun failing tests with different flags** unless the requester explicitly asks
-- **Always report exit codes** — even for commands that appear to pass
+- **Always report exit codes** — even for commands that appear to pass; report each command with its self-captured RC, decisive output lines, and the commit hash it ran on, so the result stands as an evidence record and is not re-run (`${CLAUDE_PLUGIN_ROOT}/protocols/verification.md` §Evidence Reuse)
 - **One report per request** — do not send partial updates; deliver a single summary after all commands finish
 
 ## Language Rule

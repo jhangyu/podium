@@ -11,7 +11,7 @@ Referenced by: `podium:team-fable`.
 ## Merge and Re-verify
 
 - The orchestrator merges squad worktrees into the integration branch (or designates exactly one squad lead to do it), verifying content markers before and after merge.
-- After merge verification, **re-run the round's acceptance tests on the integration branch** — in-worktree green does not prove the cross-squad combination works.
+- After merge verification, **run the round's acceptance tests on the integration branch that no valid evidence record covers** (`${CLAUDE_PLUGIN_ROOT}/protocols/verification.md` §Evidence Reuse) — in-worktree green does not prove the cross-squad combination works unless `git diff` on the covered paths is empty.
 
 ## Worktree Cleanup (mandatory, same round)
 
@@ -23,6 +23,6 @@ Once the round's work is merged and verified on the integration branch, the orch
 
 ## Close the Task (after the final round)
 
-1. Merge the integration branch back into `main` (regular merge, never force-push), then re-run the full acceptance suite **on `main`** — post-merge verification on the target branch is an independent gate, not a formality. The merge to `main` is performed only after the user has approved the final round's results.
+1. Merge the integration branch back into `main` (regular merge, never force-push), then verify the full acceptance suite **on `main`** — post-merge verification on the target branch is an independent gate, not a formality: audit the existing records and run the gaps (`${CLAUDE_PLUGIN_ROOT}/protocols/verification.md` §Evidence Reuse). The merge to `main` is performed only after the user has approved the final round's results.
 2. Verify zero residue: `git worktree list` shows only the main tree; no leftover squad branches (`git branch --merged main` cleanup with `-d`); no stray `tmp/verify/` or detached processes.
 3. Report the final state to the user: `main @ <hash>`, worktrees removed, branches deleted.

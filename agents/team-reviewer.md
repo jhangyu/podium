@@ -30,7 +30,7 @@ Run only the checks that `review.md §Dimensions` assigns to your dimensions:
 When dispatched to verify work another agent reported as complete, follow the Adversarial Review section of `${CLAUDE_PLUGIN_ROOT}/protocols/verification.md`.
 It owns:
 - the adversarial framing
-- the self-produced-evidence rule
+- the audit-then-run-the-gaps rule (Evidence Reuse)
 - the negative-space question
 - the CONFIRMED/REFUTED verdict format
 - reviewer independence: never fix what you find

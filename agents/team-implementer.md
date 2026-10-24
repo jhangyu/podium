@@ -53,7 +53,7 @@ When implementation is complete, message `team-test-runner`:
 ### Phase 5: Report
 
 - After test-runner confirms pass: report `READY_FOR_SIGNOFF` with evidence to the team lead; the lead signs off and closes the task (see ${CLAUDE_PLUGIN_ROOT}/protocols/reporting.md — do not self-complete unless your task prompt explicitly authorizes it)
-- Message the team lead with a summary of changes + test results
+- Message the team lead with a summary of changes + test results as evidence records (command, self-captured RC, decisive output, commit hash) — see `${CLAUDE_PLUGIN_ROOT}/protocols/verification.md` §Evidence Reuse
 - Note any integration concerns for other teammates
 - Flag any deviations from the original plan
 

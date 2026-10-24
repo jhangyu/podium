@@ -53,7 +53,7 @@ Always spawn ONE `podium:team-doc-updater`, with or without `--doc`.
 Its writes are fixed in Phase 5.
 
 Each reviewer prompt MUST embed the verification protocol: read ${CLAUDE_PLUGIN_ROOT}/protocols/verification.md and apply it.
-It owns the adversarial framing, the self-produced-evidence rule, the negative-space question, the verdict format, and reviewer independence.
+It owns the adversarial framing, the audit-then-run-the-gaps rule (Evidence Reuse), the negative-space question, the verdict format, and reviewer independence.
 
 Each reviewer task must include:
 - The full diff or file content, and the base used

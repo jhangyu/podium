@@ -36,7 +36,7 @@ Its verdict goes to the main agent (or team-lead / orchestrator) and to no one e
 ## Orchestrator Duties During a Round
 
 1. The orchestrator receives squad-lead summaries only; it does not micro-manage members.
-2. **Spot-check**: the orchestrator personally verifies 1–2 key claims per squad against evidence,
+2. **Spot-check**: the orchestrator personally verifies 1–2 key claims per squad against evidence — it reads the evidence record and the code and does not re-execute checks a valid record covers,
    per the evidence discipline in `${CLAUDE_PLUGIN_ROOT}/protocols/verification.md`.
 3. **Stall watchdog**: an idle notification carrying NO outbound `[to <member>]` summary, from a member that was just sent a command,
    means that member ended its turn without delivering — nudge it once immediately (idle wake-ups are messages, not polling).

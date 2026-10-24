@@ -24,7 +24,7 @@ Referenced by: `podium:team-spawn`, `podium:team-fable`, `podium:team-delegate`,
 
 ## Signoff and Task Closure
 
-- Workers never self-complete tasks. When a worker believes its acceptance criteria are met, its report ends with `READY_FOR_SIGNOFF` plus the evidence (artifact path, content markers, commit hashes). The lead verifies and closes the task.
+- Workers never self-complete tasks. When a worker believes its acceptance criteria are met, its report ends with `READY_FOR_SIGNOFF` plus the evidence (artifact path, content markers, commit hashes). Each check it ran is reported as an evidence record: exact command, self-captured `RC=$?`, decisive output lines or numbers, and the code state (commit hash, or a content marker added this round). The lead audits the record and closes the task; it does not re-run covered checks (`${CLAUDE_PLUGIN_ROOT}/protocols/verification.md` §Evidence Reuse).
 - The final task in the task list is closed only by the user, never by an agent.
 
 > Note: the v1.3.4 `team-implementer` agent variant instructed the implementer to mark its own task completed via TaskUpdate after test-runner confirmation; that self-completion variant is discarded in favour of the `READY_FOR_SIGNOFF` + lead-signoff convention above.

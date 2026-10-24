@@ -19,7 +19,7 @@ Claiming work is complete without verification is dishonesty, not efficiency.
 NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE
 ```
 
-If you haven't run the verification command in this message, you cannot claim it passes.
+If you haven't run the verification command in this message, you cannot claim it passes — unless a prior executor left a valid evidence record for the same code state; then audit and adopt it instead of re-running (`${CLAUDE_PLUGIN_ROOT}/protocols/verification.md` §Evidence Reuse).
 
 ## The Gate Function
 
@@ -41,7 +41,7 @@ Skip any step = lying, not verifying
 
 | Claim | Requires | Not Sufficient |
 |-------|----------|----------------|
-| Tests pass | Test command output: 0 failures | Previous run, "should pass" |
+| Tests pass | Test command output: 0 failures | Previous run without a valid evidence record, "should pass" |
 | Linter clean | Linter output: 0 errors | Partial check, extrapolation |
 | Build succeeds | Build command: exit 0 | Linter passing, logs look good |
 | Bug fixed | Test original symptom: passes | Code changed, assumed fixed |
@@ -68,7 +68,7 @@ Skip any step = lying, not verifying
 | "I'm confident" | Confidence ≠ evidence |
 | "Just this once" | No exceptions |
 | "Linter passed" | Linter ≠ compiler |
-| "Agent said success" | Verify independently |
+| "Agent said success" | Audit its evidence record; run what no valid record covers |
 | "I'm tired" | Exhaustion ≠ excuse |
 | "Partial check is enough" | Partial proves nothing |
 | "Different words so rule doesn't apply" | Spirit over letter |
